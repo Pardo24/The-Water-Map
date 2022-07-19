@@ -2,6 +2,42 @@
   text-align: center;
 }
 
+.backgroundimg{
+  background-image:url(../public/barcelona-jpg_header-144696.jpg) ;
+  background-size: cover;
+  background-color: beige;
+  text-align: center;
+}
+
+.titol{
+  margin: 0px 0 50px 0;
+  padding-top: 200px;
+}
+
+.parag{
+  margin-bottom: 187px;
+}
+
+.leaflet-container{
+  height: 600px;
+  width: 100%;
+
+}
+
+
+.footergran{
+  display: flex;
+  flex-direction: row;
+  justify-content:flex-start;
+  align-items: center;
+}
+
+.textsubrallat{
+  background-color: rgba(217, 250, 215, 0.571);
+  border-radius: 10px;
+  padding: 15px;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
