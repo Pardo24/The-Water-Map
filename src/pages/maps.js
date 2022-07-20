@@ -1,15 +1,16 @@
 import React, { useRef } from "react"
 import {MapContainer, TileLayer} from 'react-leaflet'
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import 'leaflet/dist/leaflet.css'
 import { Popup, Marker } from "react-leaflet"
 import {useMapEvents} from 'react-leaflet'
 import markerIcon from "../../node_modules/leaflet/dist/images/marker-icon.png"
 import {icon, Icon} from 'leaflet'
-import {FontIcon, WcIcon} from '../components/icons'
+import axios from "axios";
+import wcIcon from '../pictures/wc-icon.png'
+import fontIcon from '../pictures/font-icon.png'
 
-
-
+const API_URL = "http://localhost:5005/api";
 
 
 function LocationMarker() {
@@ -33,14 +34,35 @@ function LocationMarker() {
   }
 
 function Maps(){
+const [lavabos, setLavabos] = useState([])
+const [fonts, setFonts]= useState([])
 const [center, setCenter] = useState({ lat: 41.38201718772406,  lng: 2.140611050113362})
 const ZOOM_LEVEL =14 
 const mapRef = useRef()
-                                                //falta cridar a la base de dades i treure totes les fonts i lavabos emmagatzemats
 
+
+
+const getAllFonts = () =>{
+axios
+    .get(`${API_URL}/fonts`)
+    .then((fontsData)=>{setFonts(fontsData.data)})
+  }
+
+const getAllLavabos = () =>{
+  axios
+    .get(`${API_URL}/lavabos`)
+    .then((lavabos)=>{setLavabos(lavabos.data)})
+}
+
+useEffect(() => {
+  getAllFonts();
+  getAllLavabos();
+}, [] );
+                                                //falta cridar a la base de dades i treure totes les fonts i lavabos emmagatzemats
+                                               
 return(
         <>
-        <h2 style={{textAlign:"center", marginBottom:"60px", marginTop:"30px"}}> <text className="">Barna<text style={{color: "red"}}>[nav]</text></text></h2>
+        <h2 style={{textAlign:"center", marginBottom:"60px", marginTop:"30px"}}> <text className=""style={{color: "darkblue"}}>Water<text style={{color: "black"}}>[map]</text></text></h2>
             <MapContainer 
             center={center}
             zoom={ZOOM_LEVEL} 
@@ -48,14 +70,25 @@ return(
             >
             <TileLayer url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png" attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>' subdomains={'abcd'}></TileLayer>
             <LocationMarker/>
-{/*         {
-            <Marker position={[{}, {}]} icon={<FontIcon/>}/> //fer un map i posar la posicio per cadascuna
+
+        {fonts!==0&&ZOOM_LEVEL>10&&
+
+         fonts.map((font)=>{
+          const {lat,lng}= font;
+          
+          return(<Marker position={[lat, lng]} icon={new Icon({iconUrl: fontIcon, iconSize: [10, 15], iconAnchor: [20, 30]})}/> )
+            })
             }
 
-            {
-            <Marker position={[{}, {}]} icon={<WcIcon/>}/> //fer un map i posar la posicio per cadascun
-            }                                     
-*/}
+  
+            {lavabos!==0 &&
+                
+            lavabos.map((lavabo)=>{
+              const {lat,lng}= lavabo;
+            return(<Marker position={[lng, lat]} icon={new Icon({iconUrl: wcIcon, iconSize:[30,30], iconAnchor:[20,30]})}/> )
+            })
+            }                                      
+
             </MapContainer>
         </>
     )
