@@ -16,6 +16,8 @@ function HomePage(){
 
 const navigate = useNavigate()
     
+
+
 function NeedWater(){
  const MySwal = withReactContent(Swal)
 
@@ -24,7 +26,6 @@ function NeedWater(){
     width: 500,
     padding: '3em',
     input: 'select',
-    inputPlaceholder: 'Select a city',
     inputOptions: {
         "New York": 'New York',
         "Barcelona": 'Barcelona',
@@ -55,7 +56,7 @@ function NeedWater(){
         
         <div className="backgroundimg">
         
-        <text></text><div className="footergran"><a href="https://github.com/Pardo24" target="_blank" rel="noreferrer"><GitHubIcon  style={{padding:"15px 10px 0 15px"}}/></a> <a href="https://www.linkedin.com/in/daniel-pardo-celaya-53a999242/"target="_blank" rel="noreferrer"><LinkedInIcon style={{padding:"15px 30px 0 15px"}}/></a>
+        <text></text><div className="footergran"><a href="https://github.com/Pardo24" target="_blank" rel="noreferrer"><GitHubIcon  style={{padding:"15px 10px 0 15px"}}/></a> <a href="https://www.linkedin.com/in/daniel-pardo-celaya-53a999242/" target="_blank" rel="noreferrer"><LinkedInIcon style={{padding:"15px 30px 0 15px"}}/></a>
         {isLoggedIn && (
             <><button style={{alignSelf:'flex-end',marginLeft: '85%', fontWeight:'600'}} onClick={()=>logOutUser()}>LogOut</button></>
         )}

@@ -1,31 +1,20 @@
 import React, { useRef } from "react"
 import {MapContainer, TileLayer, LayersControl} from 'react-leaflet'
 import {useState, useEffect} from 'react'
+import {Link} from 'react-router-dom'
 import 'leaflet/dist/leaflet.css'
 import { Popup, Marker } from "react-leaflet"
 import {useMapEvents} from 'react-leaflet'
 import markerIcon from "../pictures/persona.png"
-import {icon, Icon, marker, popup} from 'leaflet'
+import { Icon} from 'leaflet'
 import axios from "axios";
 import wcIcon from '../pictures/wc-icon.png'
 import fontIcon from '../pictures/font-icon.png'
-import GpsFixedIcon from '@mui/icons-material/GpsFixed';
 import { Button } from "@mui/material"
 import Formulari from "../components/formulari"
-
-{/* <div>
-                    <h4>Post a comment:</h4>
-                    <form method="POST" action={`${API_URL}/lavafont/${_id}`}>
-
-                    <StarRating/>
-                    
-                    <br/><input placeholder={"Title"} type={"text"} name={"title"} /><br/>
-                    <br/><textarea placeholder={"Comment"} type={"text"} name={"content"}></textarea> 
-                    
-                    </form> 
-          
-                   
-                    </div> */} //FORMULARI
+import { useContext } from "react";                      
+import { AuthContext } from "../context/auth.context";
+import iconoPiscina from '../pictures/iconoPiscina.png'
 
 
 const API_URL = "http://localhost:5005/api";
@@ -37,7 +26,7 @@ const API_URL = "http://localhost:5005/api";
 function LocationMarker() {
   const [position, setPosition] = useState(null)
 const map = useMapEvents({
-    click() {
+    dblclick() {
       map.locate()
     },
     locationfound(e) {
@@ -45,8 +34,6 @@ const map = useMapEvents({
       map.flyTo(e.latlng, 17)
     },
   })
-
- 
 
   return position === null ? null : (
     <Marker position={position} icon={new Icon({iconUrl: markerIcon, iconSize: [18, 41], iconAnchor: [18, 41]})}>
@@ -60,39 +47,93 @@ const map = useMapEvents({
 function Maps(){
 const [lavabos, setLavabos] = useState([])
 const [fonts, setFonts]= useState([])
+const [piscines, setPiscines] = useState([])
 const [showForm, setShowForm] = useState(false)
 const [center, setCenter] = useState({ lat: 41.38201718772406,  lng: 2.140611050113362})
+const [dataApi, setDataApi] = useState([])
 const ZOOM_LEVEL =14 
 const mapRef = useRef()
+const { 
+  isLoggedIn,
+  user,                  
+  logOutUser             
+} = useContext(AuthContext);
 
 const {BaseLayer} = LayersControl
 
-const getOneItem=(_id)=> {axios.get(`${API_URL}/labafont/${_id}`)
-.then((response)=>{
-  console.log(response)
-})}
+
+const getOneItem=(_id)=> {
+
+    const storedToken = localStorage.getItem('authToken');
+
+    axios.get(`${API_URL}/lavafont/${_id}`, { headers: { Authorization: `Bearer ${storedToken}` } })
+        
+    .then((response)=>{setDataApi(response.data)
+                      console.log(dataApi)
+                      
+                (dataApi&& 
+
+                dataApi.comments.map((cadaComment)=>{
+                return(
+                  <>
+                    <t>{cadaComment.user}</t>
+
+                    {cadaComment.photo!==0&&(
+
+                    cadaComment.photo.map((image)=>(<img src={image} alt='no img'/>)))}
+
+                    <h6>{cadaComment.title}</h6>
+                    <p>{cadaComment.content}</p>
+                  </>
+                    )
+                  }))
+                
+          })
+    .catch((err)=>console.log(err))
+}
+
 
 const getAllFonts = () =>{
-axios
-    .get(`${API_URL}/fonts`)
-    .then((fontsData)=>{setFonts(fontsData.data)})
+      axios
+          .get(`${API_URL}/fonts`)
+          .then((fontsData)=>{setFonts(fontsData.data)})
   }
 
 const getAllLavabos = () =>{
-  axios
-    .get(`${API_URL}/lavabos`)
-    .then((lavabos)=>{setLavabos(lavabos.data)})
+      axios
+        .get(`${API_URL}/lavabos`)
+        .then((lavabos)=>{setLavabos(lavabos.data)})
+}
+
+const getAllPiscines=() =>{
+      axios
+        .get(`${API_URL}/piscines`)
+        .then((piscines)=>setPiscines(piscines.data))
 }
 
 useEffect(() => {
-  getAllFonts();
-  getAllLavabos();
+    getAllFonts();
+    getAllLavabos();
+    getAllPiscines()
 }, [] );
+
+
                                               
                                                
 return(
-        <><div className="footergran">
-        <h2 style={{alignitems:'center',marginLeft:'45%',textAlign:"center", marginBottom:"60px", marginTop:"30px"}}> <text style={{color: "darkblue"}}>Water<text style={{color: "black"}}>[map]</text></text></h2><Button style={{marginLeft: '35%', fontWeight:'600'}}>Login</Button><Button style={{ marginLeft: '10px',fontWeight:'600'}}>Sign Up</Button>
+        <>
+        <div className="footergran">
+        <h2 style={{alignitems:'center',marginLeft:'45%',textAlign:"center", marginBottom:"60px", marginTop:"30px"}}> <text style={{color: "darkblue"}}>Water<text style={{color: "black"}}>[map]</text></text></h2>
+        
+        {isLoggedIn && (
+            <><Button style={{alignSelf:'center',marginLeft: '35%', fontWeight:'600'}} onClick={()=>logOutUser()}>Logout</Button></>
+        )}
+        {!isLoggedIn && (
+            <>
+            <Link to="/login" style={{alignSelf:'center',marginLeft: '30%', fontWeight:'600'}}><Button >Login</Button></Link><Link to='/signup' style={{alignSelf:'center',  marginLeft: '10px',fontWeight:'600'}}><Button >Sign Up</Button></Link>
+            </>
+            )}
+            
             </div>
             <MapContainer 
             center={center}
@@ -126,39 +167,63 @@ return(
         {fonts!==0&&
             
          fonts.map((font)=>{
-          const {lat,lng, _id}= font;
+          const {lat,lng, _id, nom}= font;
           
-          return(<Marker key={_id} position={[lat, lng]} icon={new Icon({iconUrl: fontIcon, iconSize: [10, 15], iconAnchor: [20, 30]})}>
-                    <Popup className="request-popup" > 
-                   {Popup&&
-                   getOneItem(_id)
-                   }
+          return(<Marker onClick={()=>getOneItem(_id)} key={_id} position={[lat, lng]} icon={new Icon({iconUrl: fontIcon, iconSize: [10, 15], iconAnchor: [20, 30]})}>
+                     <Popup  className="request-popup" >
+                     {!nom&&
+              <h3>Drinking fountain</h3>} 
+                      <h3>{nom}</h3>
+                        <button onClick={()=>getOneItem(_id)} >a</button>
                    
-                    <Button color="success" onClick={()=>setShowForm(!showForm)}>{showForm? 'Hide': 'Post a comment'}</Button>
-                    {showForm&&
-                      <Formulari API_URL={API_URL} _id={_id}/>
-                      }
-                   
+                      <Button color="success" onClick={()=>setShowForm(!showForm)}>{showForm? 'Hide': 'Post a comment'}</Button>
+                      {showForm&&
+                          <Formulari API_URL={API_URL} _id={_id}/>
+                            }
                     </Popup>
-                </Marker> )
+                </Marker> 
+                )
             })
             }
+            {piscines!==0 &&
+                
+                piscines.map((piscina)=>{
+                  const {lat,lng, _id, nom}= piscina;
+    
+                return(<Marker key={_id} position={[lng, lat]} icon={new Icon({iconUrl: iconoPiscina, iconSize:[20,25], iconAnchor:[20,30]})}>
+                <Popup  className="request-popup">
+                {!nom&&
+              <h3>Pool</h3>}
+                <h3>{nom}</h3>
+                <button onClick={()=>getOneItem(_id)} >a</button>
+                <Button color="success" onClick={()=>setShowForm(!showForm)}>{showForm? 'Hide': 'Post a comment'}</Button>
+                        {showForm&&
+                          <Formulari API_URL={API_URL} _id={_id}/>
+                          }
+    
+            </Popup>
+                </Marker> )
+                })
+                } 
             
 
   
             {lavabos!==0 &&
                 
             lavabos.map((lavabo)=>{
-              const {lat,lng, _id}= lavabo;
+              const {lat,lng, _id, nom}= lavabo;
+
             return(<Marker key={_id} position={[lng, lat]} icon={new Icon({iconUrl: wcIcon, iconSize:[20,25], iconAnchor:[20,30]})}>
-            <Popup className="request-popup">
-          <div >
-        
+            <Popup  className="request-popup">
+            {!nom&&
+              <h3>Public WC</h3>}
+            <h3>{nom}</h3>
+            <button onClick={()=>getOneItem(_id)} >a</button>
             <Button color="success" onClick={()=>setShowForm(!showForm)}>{showForm? 'Hide': 'Post a comment'}</Button>
                     {showForm&&
                       <Formulari API_URL={API_URL} _id={_id}/>
                       }
-        </div>
+
         </Popup>
             </Marker> )
             })

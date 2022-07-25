@@ -23,7 +23,11 @@ const knowRating=(ratingnum) => setRating(ratingnum)
 
     axios   
     .post(`${props.API_URL}/lavafont/${props._id}`, body, { headers: { Authorization: `Bearer ${storedToken}` } })
-    .then(()=>console.log('enviat'))
+    .then(()=>{
+      setContent('')
+      setTitle('')
+      setPhoto('')
+      setRating(0)})
   }
 
 
