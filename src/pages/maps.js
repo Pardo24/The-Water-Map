@@ -15,8 +15,8 @@ import Formulari from "../components/formulari"
 import { useContext } from "react";                      
 import { AuthContext } from "../context/auth.context";
 import iconoPiscina from '../pictures/iconoPiscina.png'
-
-
+import logomapa from '../pictures/logo-mapa.jpg'
+import MenuComp from "../components/menu"
 const API_URL = "http://localhost:5005/api";
 
 
@@ -26,12 +26,12 @@ const API_URL = "http://localhost:5005/api";
 function LocationMarker() {
   const [position, setPosition] = useState(null)
 const map = useMapEvents({
-    dblclick() {
+  contextmenu() {
       map.locate()
     },
     locationfound(e) {
       setPosition(e.latlng)
-      map.flyTo(e.latlng, 17)
+      map.flyTo(e.latlng, 16)
     },
   })
 
@@ -51,15 +51,20 @@ const [piscines, setPiscines] = useState([])
 const [showForm, setShowForm] = useState(false)
 const [center, setCenter] = useState({ lat: 41.38201718772406,  lng: 2.140611050113362})
 const [dataApi, setDataApi] = useState([])
+const [showLab, setShowLab] = useState(true)
+const [showFon, setShowFon] = useState(false)
+const [showPis, setShowPis] = useState(false)
 const ZOOM_LEVEL =14 
 const mapRef = useRef()
+const {BaseLayer} = LayersControl
+
 const { 
   isLoggedIn,
   user,                  
   logOutUser             
 } = useContext(AuthContext);
 
-const {BaseLayer} = LayersControl
+
 
 
 const getOneItem=(_id)=> {
@@ -69,20 +74,23 @@ const getOneItem=(_id)=> {
     axios.get(`${API_URL}/lavafont/${_id}`, { headers: { Authorization: `Bearer ${storedToken}` } })
         
     .then((response)=>{setDataApi(response.data)
+                      const {comments} = dataApi;
                       console.log(dataApi)
-                      
-                (dataApi&& 
-
-                dataApi.comments.map((cadaComment)=>{
+                      console.log(comments)
+                (comments&& 
+                 
+                comments.map((cadaComment)=>{
+                  const {photo} = cadaComment;
                 return(
                   <>
-                    <t>{cadaComment.user}</t>
-
-                    {cadaComment.photo!==0&&(
-
-                    cadaComment.photo.map((image)=>(<img src={image} alt='no img'/>)))}
+                    {/* <t>{cadaComment.user}</t> */}
+                    
+                    {photo!==0&&(
+                       
+                    photo.map((image)=>(<img src={image} alt='no img'/>)))}
 
                     <h6>{cadaComment.title}</h6>
+                    <t>{cadaComment.updatedAt}</t>
                     <p>{cadaComment.content}</p>
                   </>
                     )
@@ -115,26 +123,35 @@ useEffect(() => {
     getAllFonts();
     getAllLavabos();
     getAllPiscines()
+
 }, [] );
+
+
 
 
                                               
                                                
 return(
-        <>
+       <body>
+
+          
         <div className="footergran">
-        <h2 style={{alignitems:'center',marginLeft:'45%',textAlign:"center", marginBottom:"60px", marginTop:"30px"}}> <text style={{color: "darkblue"}}>Water<text style={{color: "black"}}>[map]</text></text></h2>
+        <Link to='/' style={{alignitems:'center',marginLeft:'38%',textAlign:"center", marginBottom:"20px", marginTop:"30px"}}>
+        <img src={logomapa} alt='logo'/>
+        </Link>
+
+        <MenuComp/>
         
-        {isLoggedIn && (
-            <><Button style={{alignSelf:'center',marginLeft: '35%', fontWeight:'600'}} onClick={()=>logOutUser()}>Logout</Button></>
-        )}
-        {!isLoggedIn && (
-            <>
-            <Link to="/login" style={{alignSelf:'center',marginLeft: '30%', fontWeight:'600'}}><Button >Login</Button></Link><Link to='/signup' style={{alignSelf:'center',  marginLeft: '10px',fontWeight:'600'}}><Button >Sign Up</Button></Link>
-            </>
-            )}
+       
+            <br/>
             
             </div>
+            <div className="flexBotons">
+            <Button onClick={()=>setShowLab(!showLab)}>{showLab? "Hide public WC" : "Show public WC"}</Button>
+            <Button onClick={()=>setShowFon(!showFon)}>{showFon? 'Hide drinking fountains' : 'Show drinking fountains'}</Button>
+            <Button onClick={()=>setShowPis(!showPis)}>{showPis? 'Hide Swimming Pools': 'Show Swimming Pools'}</Button>
+            </div>
+
             <MapContainer 
             center={center}
             zoom={ZOOM_LEVEL} 
@@ -164,12 +181,12 @@ return(
 
 
 
-        {fonts!==0&&
+        {fonts!==0&&showFon&&
             
          fonts.map((font)=>{
           const {lat,lng, _id, nom}= font;
           
-          return(<Marker onClick={()=>getOneItem(_id)} key={_id} position={[lat, lng]} icon={new Icon({iconUrl: fontIcon, iconSize: [10, 15], iconAnchor: [20, 30]})}>
+          return(<Marker key={_id} position={[lat, lng]} icon={new Icon({iconUrl: fontIcon, iconSize: [10, 15], iconAnchor: [20, 30]})}>
                      <Popup  className="request-popup" >
                      {!nom&&
               <h3>Drinking fountain</h3>} 
@@ -185,7 +202,7 @@ return(
                 )
             })
             }
-            {piscines!==0 &&
+            {piscines!==0 &&showPis&&
                 
                 piscines.map((piscina)=>{
                   const {lat,lng, _id, nom}= piscina;
@@ -208,7 +225,7 @@ return(
             
 
   
-            {lavabos!==0 &&
+            {lavabos!==0 &&showLab&&
                 
             lavabos.map((lavabo)=>{
               const {lat,lng, _id, nom}= lavabo;
@@ -230,7 +247,8 @@ return(
             }                                      
 
             </MapContainer>
-        </>
+            
+        </body>
     )
 }
 

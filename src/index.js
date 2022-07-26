@@ -10,6 +10,8 @@ import { AuthProviderWrapper } from "./context/auth.context"
 import Signup from './pages/signup';
 import LoginPage from './pages/login';
 import IsAnon from './pages/isAnon';
+import { AttributionControl } from 'react-leaflet';
+import About from './pages/about';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
@@ -23,6 +25,7 @@ root.render(
       <Route path='/map' element={<Maps/>}> </Route>
       <Route path='/lavafont/:lavafontId' element={<Maps/>}> </Route>
       <Route path='/' element={<HomePage/>}> </Route>
+      <Route path='/about' element={<About/>}/>
       <Route path='/signup' element={<IsAnon><Signup/></IsAnon>}> </Route>
       <Route path='/login' element={<IsAnon><LoginPage/></IsAnon>}> </Route>
     </Routes>

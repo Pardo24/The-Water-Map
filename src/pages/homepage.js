@@ -6,6 +6,9 @@ import Swal from 'sweetalert2';
 import withReactContent from 'sweetalert2-react-content'
 import { useContext } from "react";                      
 import { AuthContext } from "../context/auth.context";
+import portada from '../pictures/portada.png'
+import MenuComp from '../components/menu';
+
 
 function HomePage(){
     const { 
@@ -33,6 +36,7 @@ function NeedWater(){
 
     },
     showCancelButton: true,
+    confirmButtonColor: "#1F4690",
     inputValidator: (value) => {
         return new Promise((resolve) => {
           if (value === 'Barcelona') {
@@ -42,8 +46,8 @@ function NeedWater(){
             resolve('We are implementing this city, try Barcelona')
           }
         })},
-    color: 'darkblue',
-    background: 'ligthblue grey',
+    color: "#1F4690",
+    background: '#EDEDED',
     backdrop: `
       ligthblue
     `
@@ -56,19 +60,11 @@ function NeedWater(){
         
         <div className="backgroundimg">
         
-        <text></text><div className="footergran"><a href="https://github.com/Pardo24" target="_blank" rel="noreferrer"><GitHubIcon  style={{padding:"15px 10px 0 15px"}}/></a> <a href="https://www.linkedin.com/in/daniel-pardo-celaya-53a999242/" target="_blank" rel="noreferrer"><LinkedInIcon style={{padding:"15px 30px 0 15px"}}/></a>
-        {isLoggedIn && (
-            <><button style={{alignSelf:'flex-end',marginLeft: '85%', fontWeight:'600'}} onClick={()=>logOutUser()}>LogOut</button></>
-        )}
-        {!isLoggedIn && (
-            <>
-            <Link to="/login" style={{alignSelf:'flex-end',marginLeft: '80%', fontWeight:'600'}}><Button >Login</Button></Link><Link to='/signup' style={{alignSelf:'flex-end',  marginLeft: '10px',fontWeight:'600'}}><Button >Sign Up</Button></Link>
-            </>
-            )}
-        </div>
-            <h1 className="titol"><text  style={{color: "darkblue"}} className="textsubrallat">Water<text style={{color: "black"}}>[map]</text></text></h1>
-            <p className="parag"><text style={{fontWeight: 500}} className="textsubrallat">Water checkpoints across the world</text></p>
-            <Button onClick={()=>NeedWater()} style={{marginBottom:"195px", backgroundColor:'white', fontWeight:'700'}} variant="outlined">Need some Water?</Button>
+        <div className='primaryNav'><text></text><div className="footergran left"><a href="https://github.com/Pardo24" target="_blank" rel="noreferrer"><GitHubIcon  style={{padding:"15px 10px 0 15px", color:'white'}}/></a> <a href="https://www.linkedin.com/in/daniel-pardo-celaya-53a999242/" target="_blank" rel="noreferrer"><LinkedInIcon style={{padding:"15px 30px 0 15px", color:'white'}}/></a>
+       </div> <MenuComp props='dark' fontSize='large' style={{marginRight:'20px'}}/></div>
+            <h1 className="titol"><img src={portada} alt='portada'/></h1>
+            <p className="parag"><text style={{fontWeight: 500}} className="textsubrallat">Flow everywhere</text></p>
+            <Button onClick={()=>NeedWater()} style={{marginBottom:"292px", backgroundColor:'white', fontWeight:'700', color:'black', borderRadius:'50px'}}>Need some Water?</Button>
         </div>
         
         </>
