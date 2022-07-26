@@ -27,6 +27,15 @@
 .flexBotons{
   display: flex;
   justify-content: space-evenly;
+  
+}
+
+.flexBotons button:hover{
+  background-color: rgba(8, 192, 233, 0.845);
+}
+.flexBotons button{
+  padding: 6px 10.4% 6px 10.3%;
+  font-weight:400;
 }
 
 .titol{

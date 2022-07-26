@@ -25,9 +25,9 @@ function NeedWater(){
  const MySwal = withReactContent(Swal)
 
  const {value: city} =  MySwal.fire({
-    title: 'Choose your city',
+    title: 'Where do you want to flow?',
     width: 500,
-    padding: '3em',
+    padding: '4em',
     input: 'select',
     inputOptions: {
         "New York": 'New York',
@@ -63,8 +63,8 @@ function NeedWater(){
         <div className='primaryNav'><text></text><div className="footergran left"><a href="https://github.com/Pardo24" target="_blank" rel="noreferrer"><GitHubIcon  style={{padding:"15px 10px 0 15px", color:'white'}}/></a> <a href="https://www.linkedin.com/in/daniel-pardo-celaya-53a999242/" target="_blank" rel="noreferrer"><LinkedInIcon style={{padding:"15px 30px 0 15px", color:'white'}}/></a>
        </div> <MenuComp props='dark' fontSize='large' style={{marginRight:'20px'}}/></div>
             <h1 className="titol"><img src={portada} alt='portada'/></h1>
-            <p className="parag"><text style={{fontWeight: 500}} className="textsubrallat">Flow everywhere</text></p>
-            <Button onClick={()=>NeedWater()} style={{marginBottom:"292px", backgroundColor:'white', fontWeight:'700', color:'black', borderRadius:'50px'}}>Need some Water?</Button>
+            <p className="parag"><text style={{fontWeight: 500}} className="textsubrallat">Find your flow everywhere</text></p>
+            <Button onClick={()=>NeedWater()} style={{marginBottom:"292px", backgroundColor:'white', fontWeight:'700', color:'black', borderRadius:'50px'}}>Choose your city</Button>
         </div>
         
         </>

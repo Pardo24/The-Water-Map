@@ -9,7 +9,7 @@ const [rating, setRating]= useState(0)
 const [title, setTitle] = useState('')
 const [content, setContent] = useState('')
 const [photo, setPhoto] = useState('')
-
+const [userId, setUserId] = useState('')
 
 
 const knowRating=(ratingnum) => setRating(ratingnum)
@@ -18,7 +18,7 @@ const knowRating=(ratingnum) => setRating(ratingnum)
   const  handleSubmit=(e)=>{
     e.preventDefault()
 
-    const body = {rating:rating , title:title , content:content , photo:photo, labafont:props._id} //no se com treure el user id per al comentari
+    const body = {rating:rating , title:title , content:content , photo:photo, labafont:props._id, user:userId} 
     const storedToken = localStorage.getItem('authToken');
 
     axios   
@@ -27,7 +27,9 @@ const knowRating=(ratingnum) => setRating(ratingnum)
       setContent('')
       setTitle('')
       setPhoto('')
-      setRating(0)})
+      setRating(0)
+      setUserId('')
+    })
   }
 
 
@@ -39,16 +41,7 @@ const knowRating=(ratingnum) => setRating(ratingnum)
                     <form  onSubmit={handleSubmit} >
 
                     <StarRating knowRating={knowRating}  />
-
-                    <br/><input placeholder={"Title"} 
-                    type={"text"} 
-                    name={"title"}
-                    value={title}
-                    onChange={(e)=> setTitle(e.target.value)}
-                     />
-
-                     <br/>
-
+                    <br/>
                     <input 
                     type={'file'} 
                     name={"photo"}
@@ -56,6 +49,17 @@ const knowRating=(ratingnum) => setRating(ratingnum)
                     value={photo}
                     onChange={(e)=> setPhoto(e.target.value)}
                     />
+                    <br/><br/>
+                    <input placeholder={"Title"} 
+                    type={"text"} 
+                    name={"title"}
+                    value={title}
+                    onChange={(e)=> setTitle(e.target.value)}
+                     />
+
+                    
+
+                   
 
                     <br/>
                     <br/>
@@ -68,7 +72,7 @@ const knowRating=(ratingnum) => setRating(ratingnum)
                     ></textarea> 
 
                     <br/>
-                    <Button type="submit" variant="contained" color="success">Post</Button>
+                    <Button type="submit" onSubmit={()=>setUserId(props.user)} variant="contained" color="success">Post</Button>
                    
                     </form> 
             </div>

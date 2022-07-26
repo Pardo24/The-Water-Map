@@ -17,6 +17,12 @@ import { AuthContext } from "../context/auth.context";
 import iconoPiscina from '../pictures/iconoPiscina.png'
 import logomapa from '../pictures/logo-mapa.jpg'
 import MenuComp from "../components/menu"
+import wcIconWhi from '../pictures/wc-icon-white.png'
+import piscIconWhi from '../pictures/iconoPiscina-white.png'
+import fontIconWhi from '../pictures/font-icon-white.png'
+
+
+
 const API_URL = "http://localhost:5005/api";
 
 
@@ -68,19 +74,19 @@ const {
 
 
 const getOneItem=(_id)=> {
+    //const storedToken = localStorage.getItem('authToken');, { headers: { Authorization: `Bearer ${storedToken}` }}
 
-    const storedToken = localStorage.getItem('authToken');
-
-    axios.get(`${API_URL}/lavafont/${_id}`, { headers: { Authorization: `Bearer ${storedToken}` } })
+    axios.get(`${API_URL}/lavafont/${_id}` )
         
-    .then((response)=>{setDataApi(response.data)
-                      const {comments} = dataApi;
+    .then((response)=>{setDataApi(response)
+             
                       console.log(dataApi)
-                      console.log(comments)
-                (comments&& 
+                  
+return(
+                (dataApi&& 
                  
-                comments.map((cadaComment)=>{
-                  const {photo} = cadaComment;
+                dataApi.map((cadaComment)=>{
+                  const {photo, title, updatedAt, content, user} = cadaComment;
                 return(
                   <>
                     {/* <t>{cadaComment.user}</t> */}
@@ -89,12 +95,12 @@ const getOneItem=(_id)=> {
                        
                     photo.map((image)=>(<img src={image} alt='no img'/>)))}
 
-                    <h6>{cadaComment.title}</h6>
-                    <t>{cadaComment.updatedAt}</t>
-                    <p>{cadaComment.content}</p>
+                    <h6>{title}</h6>
+                    <t>{updatedAt}</t>
+                    <p>{content}</p>
                   </>
                     )
-                  }))
+                  })))
                 
           })
     .catch((err)=>console.log(err))
@@ -134,22 +140,22 @@ useEffect(() => {
 return(
        <body>
 
-          
-        <div className="footergran">
-        <Link to='/' style={{alignitems:'center',marginLeft:'38%',textAlign:"center", marginBottom:"20px", marginTop:"30px"}}>
+          <div className="primaryNav">
+        <div className='footergran left' >
+        <Link to='/' style={{alignitems:'center',textAlign:"center", marginBottom:"20px", marginTop:"30px"}}>
         <img src={logomapa} alt='logo'/>
         </Link>
-
-        <MenuComp/>
-        
+ </div>
+        <MenuComp style={{marginRight:'30px'}}/>
        
-            <br/>
+       
+           
             
             </div>
-            <div className="flexBotons">
-            <Button onClick={()=>setShowLab(!showLab)}>{showLab? "Hide public WC" : "Show public WC"}</Button>
-            <Button onClick={()=>setShowFon(!showFon)}>{showFon? 'Hide drinking fountains' : 'Show drinking fountains'}</Button>
-            <Button onClick={()=>setShowPis(!showPis)}>{showPis? 'Hide Swimming Pools': 'Show Swimming Pools'}</Button>
+            <div className="flexBotons" style={{backgroundColor:'#1F4690'}}>
+            <Button style={{color:'white'}} onClick={()=>setShowLab(!showLab)}>{showLab? "Hide public WC" : "Show public WC"}<img style={{marginLeft:'15px', backgroundColor:''}} src={wcIconWhi} width={28} height={35} alt='wc'/></Button>
+            <Button style={{color:'white'}} onClick={()=>setShowFon(!showFon)}>{showFon? 'Hide drinking fountains' : 'Show drinking fountains'}<img style={{marginLeft:'15px'}} src={fontIconWhi} width={20} height={30} alt='fountain'/></Button>
+            <Button style={{color:'white'}} onClick={()=>setShowPis(!showPis)}>{showPis? 'Hide Swimming Pools': 'Show Swimming Pools'}<img style={{marginLeft:'15px'}} src={piscIconWhi} width={30} height={30} alt='fountain'/></Button>
             </div>
 
             <MapContainer 
@@ -191,11 +197,11 @@ return(
                      {!nom&&
               <h3>Drinking fountain</h3>} 
                       <h3>{nom}</h3>
-                        <button onClick={()=>getOneItem(_id)} >a</button>
+                        <button onClick={()=>getOneItem(_id)} >Get comments</button>
                    
                       <Button color="success" onClick={()=>setShowForm(!showForm)}>{showForm? 'Hide': 'Post a comment'}</Button>
                       {showForm&&
-                          <Formulari API_URL={API_URL} _id={_id}/>
+                          <Formulari API_URL={API_URL} _id={_id} user={user._id}/>
                             }
                     </Popup>
                 </Marker> 
@@ -212,10 +218,10 @@ return(
                 {!nom&&
               <h3>Pool</h3>}
                 <h3>{nom}</h3>
-                <button onClick={()=>getOneItem(_id)} >a</button>
+                <button onClick={()=>getOneItem(_id)} >Get comments</button>
                 <Button color="success" onClick={()=>setShowForm(!showForm)}>{showForm? 'Hide': 'Post a comment'}</Button>
                         {showForm&&
-                          <Formulari API_URL={API_URL} _id={_id}/>
+                          <Formulari API_URL={API_URL} _id={_id} user={user._id}/>
                           }
     
             </Popup>
@@ -235,10 +241,10 @@ return(
             {!nom&&
               <h3>Public WC</h3>}
             <h3>{nom}</h3>
-            <button onClick={()=>getOneItem(_id)} >a</button>
+            <button onClick={()=>getOneItem(_id)} >Get Comments</button>
             <Button color="success" onClick={()=>setShowForm(!showForm)}>{showForm? 'Hide': 'Post a comment'}</Button>
                     {showForm&&
-                      <Formulari API_URL={API_URL} _id={_id}/>
+                      <Formulari API_URL={API_URL} _id={_id} user={user._id}/>
                       }
 
         </Popup>
@@ -247,7 +253,16 @@ return(
             }                                      
 
             </MapContainer>
-            
+
+          <div style={{display:'flex', marginTop:'36%' }}>
+          
+          <img style={{marginLeft:'20px'}} src={markerIcon} width={20} height={47} alt='persona'/> 
+          <div style={{marginLeft:'30px', display:'flex', flexDirection:'column', marginTop:'-20px'}}>
+          <h3>Where are you?</h3>
+          <t style={{marginTop:'-10px'}}>Right click to know your location. In mobile hold tap.</t>
+          </div>
+          </div>
+
         </body>
     )
 }

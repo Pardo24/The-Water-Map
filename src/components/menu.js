@@ -17,6 +17,7 @@ function MenuComp(props){
       } = useContext(AuthContext);
       
 return(
+    <>
 <PopupState variant="popover" popupId="demo-popup-menu">
   {(popupState) => (
     <React.Fragment>
@@ -42,6 +43,7 @@ return(
     </React.Fragment>
   )}
 </PopupState>
+</>
 )
 }
 
