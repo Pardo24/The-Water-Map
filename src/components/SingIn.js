@@ -17,7 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { AuthContext } from '../context/auth.context'
 import {useContext, useState } from "react";
 
-const API_URL = "https://water-map.herokuapp.com/api"
+const API_URL = "http://localhost:5005/api"
 
 
 function Copyright(props) {

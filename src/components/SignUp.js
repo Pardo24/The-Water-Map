@@ -16,7 +16,7 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-const API_URL = "https://water-map.herokuapp.com/api"
+const API_URL = "http://localhost:5005/api"
 
 function Copyright(props) {
   return (
