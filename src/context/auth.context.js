@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-const API_URL = "http://localhost:5005/api";
+const API_URL = "https://water-map.herokuapp.com/api";
  
 const AuthContext = React.createContext();
  

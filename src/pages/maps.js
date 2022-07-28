@@ -24,7 +24,7 @@ import { isVisible } from "@testing-library/user-event/dist/utils"
 import ClearIcon from '@mui/icons-material/Clear';
 import EditIcon from '@mui/icons-material/Edit';
 
-const API_URL = "http://localhost:5005/api";
+const API_URL = "https://water-map.herokuapp.com/api";
 
 
 
