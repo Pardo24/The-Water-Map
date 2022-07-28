@@ -24,7 +24,7 @@ import { isVisible } from "@testing-library/user-event/dist/utils"
 import ClearIcon from '@mui/icons-material/Clear';
 import EditIcon from '@mui/icons-material/Edit';
 
-const API_URL = "http://localhost:5005/api";
+const API_URL = process.env.REACT_APP_API_URL;
 
 
 
@@ -108,8 +108,8 @@ const getAllPiscines=() =>{
 }
 
 useEffect(()=>{
- setInterval(() =>setRefresh(refresh+1), 10000)
-},[])
+ setInterval(() =>setRefresh((refresh+1)), 10000)
+})
 
  useEffect(() => { 
   getAllPiscines()
@@ -118,7 +118,9 @@ useEffect(()=>{
 
 }, [refresh] );
 
-
+const edit = (idcom) => {
+  
+}
 
 
 
@@ -181,7 +183,7 @@ return(
                      <Popup className="custom-popup leaflet-popup"  style={{textAlign:'center', position:'center'}} >
                      {!nom&&
               <h3>Drinking fountain</h3>} 
-                      <h3>{nom}</h3>
+                      <h3>{nom.toUpperCase()}</h3>
                      
                   {comments.length!==0&&
                         comments.map((comment)=>{
@@ -194,12 +196,12 @@ return(
                           {photo!==0&&
                             
                           <div><a href={photo} rel='noreferrer' target='_blank'><img src={photo} width={90} height={80} alt='no img' style={{padding:'10px 10px 0px 0px'}}/></a></div>}
-                            <div style={{marginRight:'20px'}}>
+                            <div style={{marginRight:'5px', marginLeft:'10px'}}>
                                                          
                             <b>{title}</b><br/>
                             {rating>0&&
                               [...Array(rating)].map(() =><span className="star" style={{color:'#F6E83A'}}>&#9733;</span>)}<br/>
-                            <p>{content}</p></div>
+                            <span>{content}</span></div>
                             <div className="editborrar">
                             <Button style={{padding:'0 -10px 0 -10px'}} onClick={()=>deleteComment(comment._id)}><ClearIcon className="iconeted" fontSize="small"/></Button>
                             <Button onClick={()=>editComment(comment._id)}><EditIcon className="iconetee" fontSize="small"/></Button>
@@ -235,7 +237,7 @@ return(
                 <Popup  className="request-popup">
                 {!nom&&
               <h3>Pool</h3>}
-                <h3>{nom}</h3>
+                <h3>{nom.toUpperCase()}</h3>
                 {comments.length!==0&&
                         comments.map((comment)=>{
                           const {photo, title, updatedAt,rating, content, user} = comment;
@@ -252,7 +254,7 @@ return(
                           <b>{title}</b><br/>
                           {rating>0&&
                             [...Array(rating)].map(() =><span className="star" style={{color:'#F6E83A'}}>&#9733;</span>)}<br/>
-                          <p>{content}</p></div>
+                          <span>{content}</span></div>
                           <div className="editborrar">
                           <Button onClick={()=>deleteComment(comment._id)}><ClearIcon className="iconeted" fontSize="small"/></Button>
                           <Button onClick={()=>editComment(comment._id)}><EditIcon className="iconetee" fontSize="small"/></Button>
@@ -293,7 +295,7 @@ return(
 
             {!nom&&
               <h3>Public WC</h3>}
-            <h3>{nom}</h3>
+            <h3>{nom.toUpperCase()}</h3>
             {comments.length!==0&&
                         comments.map((comment)=>{
                           const {photo, title, updatedAt,rating, content, user} = comment;
@@ -310,7 +312,7 @@ return(
                           <b>{title}</b><br/>
                           {rating>0&&
                             [...Array(rating)].map(() =><span className="star" style={{color:'#F6E83A'}}>&#9733;</span>)}<br/>
-                          <p>{content}</p></div>
+                          <span>{content}</span></div>
                           <div className="editborrar">
                           <Button onClick={()=>deleteComment(comment._id)}><ClearIcon className="iconeted" fontSize="small"/></Button>
                           <Button onClick={()=>editComment(comment._id)}><EditIcon className="iconetee" fontSize="small"/></Button>
@@ -320,7 +322,7 @@ return(
                           </section>)
                         })}
           
-            <Button color="success" style={{border:'solid 1.5px green'}} onClick={()=>setShowForm(!showForm)}>{showForm? 'Hide': 'Post a comment'}</Button>
+            <Button color="success" style={{border:'solid 1.5px green', marginLeft: '28%'}} onClick={()=>setShowForm(!showForm)}>{showForm? 'Hide': 'Comment'}</Button>
                         {showForm&&!isLoggedIn&&
                         <>
                         <br/>
