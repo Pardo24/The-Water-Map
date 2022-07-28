@@ -1,8 +1,8 @@
 
 import MenuComp from "../components/menu";
 import SignUp from "../components/SignUp";
-import logomapa from '../pictures/logo-mapa.jpg'
-
+import logomapa from '../pictures/logo-mapa.png'
+import {Link} from 'react-router-dom'
  
  
 function SignupPage(props) {
@@ -12,7 +12,7 @@ function SignupPage(props) {
   <>
   <div className="primaryNav">
   <div className='footergran left' >
-  <img src={logomapa} alt='logo' style={{margin:'10px 0 10px 0'}}/>
+  <Link to='/'><img src={logomapa} alt='logo' style={{margin:'10px 0 10px 0'}}/></Link>
   </div>
     <MenuComp/>
   </div>

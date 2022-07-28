@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { AuthContext } from '../context/auth.context';
 import SignIn from "../components/SingIn";
  import MenuComp from "../components/menu";
- import logomapa from '../pictures/logo-mapa.jpg'
+ import logomapa from '../pictures/logo-mapa.png'
  
  
 function LoginPage(props) {
@@ -14,7 +14,7 @@ function LoginPage(props) {
   <>
   <div className="primaryNav">
   <div className='footergran left' >
-  <img src={logomapa} alt='logo' style={{margin:'10px 0 10px 0'}}/>
+ <Link to='/'> <img src={logomapa} alt='logo' style={{margin:'10px 0 10px 0'}}/></Link>
   </div>
     <MenuComp/>
   </div>

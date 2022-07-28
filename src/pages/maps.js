@@ -15,7 +15,7 @@ import Formulari from "../components/formulari"
 import { useContext } from "react";                      
 import { AuthContext } from "../context/auth.context";
 import iconoPiscina from '../pictures/iconoPiscina.png'
-import logomapa from '../pictures/logo-mapa.jpg'
+import logomapa from '../pictures/logo-mapa.png'
 import MenuComp from "../components/menu"
 import wcIconWhi from '../pictures/wc-icon-white.png'
 import piscIconWhi from '../pictures/iconoPiscina-white.png'
@@ -63,6 +63,7 @@ const [showPis, setShowPis] = useState(true)
 const [photo, setPhoto] = useState('')
 const [action, setAction] = useState(true)
 const [refresh, setRefresh] = useState(0)
+
 const ZOOM_LEVEL =14 
 const mapRef = useRef()
 const {BaseLayer} = LayersControl
@@ -108,8 +109,8 @@ const getAllPiscines=() =>{
 }
 
 useEffect(()=>{
- setInterval(() =>setRefresh((refresh+1)), 10000)
-})
+ setInterval(() =>setRefresh((refresh+1)), 5000)
+}, [])
 
  useEffect(() => { 
   getAllPiscines()
@@ -119,7 +120,8 @@ useEffect(()=>{
 }, [refresh] );
 
 const edit = (idcom) => {
-  
+
+  editComment(idcom)
 }
 
 
@@ -189,7 +191,9 @@ return(
                         comments.map((comment)=>{
                           const {photo, title, updatedAt,rating, content, user} = comment;
               
-                        return(<section className="leaflet-popup-content-wrapper leaflet-popup-content" style={{margin:'10px 5px', padding:'10px', textAlign:'center', display:'flex', justifyContent:'center'}}>
+                        return(
+                          
+                          <section className="leaflet-popup-content-wrapper leaflet-popup-content" style={{margin:'10px 5px', padding:'10px', textAlign:'center', display:'flex', justifyContent:'center'}}>
                           
                             <div className="comment" style={{padding:'10px 5px'}}>
                            
@@ -200,7 +204,7 @@ return(
                                                          
                             <b>{title}</b><br/>
                             {rating>0&&
-                              [...Array(rating)].map(() =><span className="star" style={{color:'#F6E83A'}}>&#9733;</span>)}<br/>
+                              [...Array(rating)].map(() =><span className="star" style={{color:'rgb(33, 114, 226)'}}>&#9733;</span>)}<br/>
                             <span>{content}</span></div>
                             <div className="editborrar">
                             <Button style={{padding:'0 -10px 0 -10px'}} onClick={()=>deleteComment(comment._id)}><ClearIcon className="iconeted" fontSize="small"/></Button>
@@ -253,7 +257,7 @@ return(
                                                        
                           <b>{title}</b><br/>
                           {rating>0&&
-                            [...Array(rating)].map(() =><span className="star" style={{color:'#F6E83A'}}>&#9733;</span>)}<br/>
+                            [...Array(rating)].map(() =><span className="star" style={{color:'rgb(33, 114, 226)'}}>&#9733;</span>)}<br/>
                           <span>{content}</span></div>
                           <div className="editborrar">
                           <Button onClick={()=>deleteComment(comment._id)}><ClearIcon className="iconeted" fontSize="small"/></Button>
@@ -311,7 +315,7 @@ return(
                                                        
                           <b>{title}</b><br/>
                           {rating>0&&
-                            [...Array(rating)].map(() =><span className="star" style={{color:'#F6E83A'}}>&#9733;</span>)}<br/>
+                            [...Array(rating)].map(() =><span className="star" style={{color:'rgb(33, 114, 226)'}}>&#9733;</span>)}<br/>
                           <span>{content}</span></div>
                           <div className="editborrar">
                           <Button onClick={()=>deleteComment(comment._id)}><ClearIcon className="iconeted" fontSize="small"/></Button>
@@ -339,12 +343,12 @@ return(
 
             </MapContainer>
 
-          <div style={{display:'flex', marginTop:'36%' }}>
+          <div style={{display:'flex', marginTop:'35%' }}>
           
           <img style={{marginLeft:'20px'}} src={markerIcon} width={20} height={47} alt='persona'/> 
           <div style={{marginLeft:'30px', display:'flex', flexDirection:'column', marginTop:'-20px'}}>
           <h3>Where are you?</h3>
-          <t style={{marginTop:'-10px'}}>Right click to know your location. In mobile hold tap.</t>
+          <t style={{marginTop:'-10px'}}><t style={{textDecoration:'underline'}}>Right click</t> to know your location. In mobile <t style={{textDecoration:'underline'}}>hold tap</t>.</t>
           </div>
           </div>
 
