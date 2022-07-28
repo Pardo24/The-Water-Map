@@ -20,8 +20,9 @@ import MenuComp from "../components/menu"
 import wcIconWhi from '../pictures/wc-icon-white.png'
 import piscIconWhi from '../pictures/iconoPiscina-white.png'
 import fontIconWhi from '../pictures/font-icon-white.png'
-
-
+import { isVisible } from "@testing-library/user-event/dist/utils"
+import ClearIcon from '@mui/icons-material/Clear';
+import EditIcon from '@mui/icons-material/Edit';
 
 const API_URL = "http://localhost:5005/api";
 
@@ -56,10 +57,12 @@ const [fonts, setFonts]= useState([])
 const [piscines, setPiscines] = useState([])
 const [showForm, setShowForm] = useState(false)
 const [center, setCenter] = useState({ lat: 41.38201718772406,  lng: 2.140611050113362})
-const [dataApi, setDataApi] = useState([])
 const [showLab, setShowLab] = useState(true)
-const [showFon, setShowFon] = useState(false)
-const [showPis, setShowPis] = useState(false)
+const [showFon, setShowFon] = useState(true)
+const [showPis, setShowPis] = useState(true)
+const [photo, setPhoto] = useState('')
+const [action, setAction] = useState(true)
+const [refresh, setRefresh] = useState(0)
 const ZOOM_LEVEL =14 
 const mapRef = useRef()
 const {BaseLayer} = LayersControl
@@ -71,40 +74,19 @@ const {
 } = useContext(AuthContext);
 
 
-
-
-const getOneItem=(_id)=> {
-    //const storedToken = localStorage.getItem('authToken');, { headers: { Authorization: `Bearer ${storedToken}` }}
-
-    axios.get(`${API_URL}/lavafont/${_id}` )
-        
-    .then((response)=>{setDataApi(response)
-             
-                      console.log(dataApi)
-                  
-return(
-                (dataApi&& 
-                 
-                dataApi.map((cadaComment)=>{
-                  const {photo, title, updatedAt, content, user} = cadaComment;
-                return(
-                  <>
-                    {/* <t>{cadaComment.user}</t> */}
-                    
-                    {photo!==0&&(
-                       
-                    photo.map((image)=>(<img src={image} alt='no img'/>)))}
-
-                    <h6>{title}</h6>
-                    <t>{updatedAt}</t>
-                    <p>{content}</p>
-                  </>
-                    )
-                  })))
-                
-          })
-    .catch((err)=>console.log(err))
+const editComment= (id) =>{
+  const storedToken = localStorage.getItem('authToken');
+    axios.put(`${API_URL}/comments/${id}`, { headers: { Authorization: `Bearer ${storedToken}` } })
+   
 }
+
+const deleteComment = (id) =>{
+  const storedToken = localStorage.getItem('authToken');
+  axios.delete(`${API_URL}/comments/${id}`, { headers: { Authorization: `Bearer ${storedToken}` } })
+  
+}
+
+const knowPhoto = (photo) =>setPhoto(photo)
 
 
 const getAllFonts = () =>{
@@ -125,12 +107,18 @@ const getAllPiscines=() =>{
         .then((piscines)=>setPiscines(piscines.data))
 }
 
-useEffect(() => {
-    getAllFonts();
-    getAllLavabos();
-    getAllPiscines()
+useEffect(()=>{
+ setInterval(() =>setRefresh(refresh+1), 10000)
+},[])
 
-}, [] );
+ useEffect(() => { 
+  
+  getAllPiscines()
+  getAllLavabos()
+ 
+  getAllFonts()   
+}, [refresh] );
+
 
 
 
@@ -142,7 +130,7 @@ return(
 
           <div className="primaryNav">
         <div className='footergran left' >
-        <Link to='/' style={{alignitems:'center',textAlign:"center", marginBottom:"20px", marginTop:"30px"}}>
+        <Link to='/' style={{alignitems:'center',textAlign:"center", margin:'10px 0 10px 0'}}>
         <img src={logomapa} alt='logo'/>
         </Link>
  </div>
@@ -187,23 +175,54 @@ return(
 
 
 
-        {fonts!==0&&showFon&&
-            
+        {fonts!==0&&showFon&&            
          fonts.map((font)=>{
-          const {lat,lng, _id, nom}= font;
-          
+          const {lat,lng, _id, nom, tipo, comments, photo}= font;
           return(<Marker key={_id} position={[lat, lng]} icon={new Icon({iconUrl: fontIcon, iconSize: [10, 15], iconAnchor: [20, 30]})}>
-                     <Popup  className="request-popup" >
+                     <Popup className="custom-popup leaflet-popup"  style={{textAlign:'center', position:'center'}} >
                      {!nom&&
               <h3>Drinking fountain</h3>} 
                       <h3>{nom}</h3>
-                        <button onClick={()=>getOneItem(_id)} >Get comments</button>
+                     
+                  {comments.length!==0&&
+                        comments.map((comment)=>{
+                          const {photo, title, updatedAt,rating, content, user} = comment;
+              
+                        return(<section className="leaflet-popup-content-wrapper leaflet-popup-content" style={{margin:'10px 5px', padding:'10px', textAlign:'center', display:'flex', justifyContent:'center'}}>
+                          
+                            <div className="comment" style={{padding:'10px 5px'}}>
+                           
+                          {photo!==0&&
+                            
+                          <div><a href={photo} rel='noreferrer' target='_blank'><img src={photo} width={120} height={90} alt='no img' style={{padding:'10px 10px 0px 0px'}}/></a></div>}
+                            <div style={{marginRight:'20px'}}>
+                                                         
+                            <b>{title}</b><br/>
+                            {rating>0&&
+                              [...Array(rating)].map(() =><span className="star" style={{color:'#F6E83A'}}>&#9733;</span>)}<br/>
+                            <p>{content}</p></div>
+                            <div className="editborrar">
+                            <Button onClick={()=>deleteComment(comment._id)}><ClearIcon className="iconeted" fontSize="small"/></Button>
+                            <Button onClick={()=>editComment(comment._id)}><EditIcon className="iconetee" fontSize="small"/></Button>
+                            
+                            </div>
+                            </div>
+                        
+                 </section>)
+                        })}
                    
-                      <Button color="success" onClick={()=>setShowForm(!showForm)}>{showForm? 'Hide': 'Post a comment'}</Button>
-                      {showForm&&
-                          <Formulari API_URL={API_URL} _id={_id} user={user._id}/>
-                            }
-                    </Popup>
+                      <Button color="success" style={{border:'solid 1.5px green', margin:'12px 0% 15px 0'}}  onClick={()=>setShowForm(!showForm)}>{showForm? 'Hide': 'Post a comment'}</Button>
+                      {showForm&&!isLoggedIn&&
+                        <>
+                        <br/>
+                        <alert>You have to be logged in</alert></>}
+
+                      {showForm&&isLoggedIn&&
+                      
+                          <Formulari API_URL={API_URL} _id={_id} knowPhoto={knowPhoto}  user={user._id}/>
+                          
+                      }
+                   </Popup>
                 </Marker> 
                 )
             })
@@ -211,17 +230,49 @@ return(
             {piscines!==0 &&showPis&&
                 
                 piscines.map((piscina)=>{
-                  const {lat,lng, _id, nom}= piscina;
+                  const {lat,lng, _id, nom, tipo, comments, photo}= piscina;
     
                 return(<Marker key={_id} position={[lng, lat]} icon={new Icon({iconUrl: iconoPiscina, iconSize:[20,25], iconAnchor:[20,30]})}>
                 <Popup  className="request-popup">
                 {!nom&&
               <h3>Pool</h3>}
                 <h3>{nom}</h3>
-                <button onClick={()=>getOneItem(_id)} >Get comments</button>
-                <Button color="success" onClick={()=>setShowForm(!showForm)}>{showForm? 'Hide': 'Post a comment'}</Button>
-                        {showForm&&
-                          <Formulari API_URL={API_URL} _id={_id} user={user._id}/>
+                {comments.length!==0&&
+                        comments.map((comment)=>{
+                          const {photo, title, updatedAt,rating, content, user} = comment;
+              
+                        return(<section className="leaflet-popup-content-wrapper leaflet-popup-content" style={{margin:'10px 5px', padding:'10px', textAlign:'center', display:'flex', justifyContent:'center'}}>
+                          
+                          <div className="comment" style={{padding:'10px 5px'}}>
+                         
+                        {photo!==0&&
+                          
+                        <div><a href={photo} rel='noreferrer' target='_blank'><img src={photo} width={120} height={90} alt='no img' style={{padding:'10px 10px 0px 0px'}}/></a></div>}
+                          <div style={{marginRight:'20px'}}>
+                                                       
+                          <b>{title}</b><br/>
+                          {rating>0&&
+                            [...Array(rating)].map(() =><span className="star" style={{color:'#F6E83A'}}>&#9733;</span>)}<br/>
+                          <p>{content}</p></div>
+                          <div className="editborrar">
+                          <Button onClick={()=>deleteComment(comment._id)}><ClearIcon className="iconeted" fontSize="small"/></Button>
+                          <Button onClick={()=>editComment(comment._id)}><EditIcon className="iconetee" fontSize="small"/></Button>
+                          
+                          </div>
+                          </div>
+                          </section>)
+                      })}
+                        
+                <Button color="success" style={{border:'solid 1.5px green'}} onClick={()=>setShowForm(!showForm)}>{showForm? 'Hide': 'Post a comment'}</Button>
+
+                        {showForm&&!isLoggedIn&&
+                          <>
+                        <br/>
+                        <alert>You have to be logged in</alert></>}
+
+                        {showForm&&isLoggedIn&&
+                        
+                          <Formulari API_URL={API_URL} _id={_id} knowPhoto={knowPhoto} user={user._id}/>
                           }
     
             </Popup>
@@ -234,17 +285,50 @@ return(
             {lavabos!==0 &&showLab&&
                 
             lavabos.map((lavabo)=>{
-              const {lat,lng, _id, nom}= lavabo;
 
-            return(<Marker key={_id} position={[lng, lat]} icon={new Icon({iconUrl: wcIcon, iconSize:[20,25], iconAnchor:[20,30]})}>
-            <Popup  className="request-popup">
+              const {lat,lng, _id, nom, tipo, comments, photo}= lavabo;
+
+            return(
+               <Marker key={_id} position={[lng, lat]} icon={new Icon({iconUrl: wcIcon, iconSize:[20,25], iconAnchor:[20,30]})}>
+            <Popup  className="request-popup" >
+
             {!nom&&
               <h3>Public WC</h3>}
             <h3>{nom}</h3>
-            <button onClick={()=>getOneItem(_id)} >Get Comments</button>
-            <Button color="success" onClick={()=>setShowForm(!showForm)}>{showForm? 'Hide': 'Post a comment'}</Button>
-                    {showForm&&
-                      <Formulari API_URL={API_URL} _id={_id} user={user._id}/>
+            {comments.length!==0&&
+                        comments.map((comment)=>{
+                          const {photo, title, updatedAt,rating, content, user} = comment;
+              
+                        return(<section className="leaflet-popup-content-wrapper leaflet-popup-content" style={{margin:'10px 5px', padding:'10px', textAlign:'center', display:'flex', justifyContent:'center'}}>
+                          
+                          <div className="comment" style={{padding:'10px 5px'}}>
+                         
+                        {photo!==0&&
+                          
+                        <div><a href={photo} rel='noreferrer' target='_blank'><img src={photo} width={120} height={90} alt='no img' style={{padding:'10px 10px 0px 0px'}}/></a></div>}
+                          <div style={{marginRight:'20px'}}>
+                                                       
+                          <b>{title}</b><br/>
+                          {rating>0&&
+                            [...Array(rating)].map(() =><span className="star" style={{color:'#F6E83A'}}>&#9733;</span>)}<br/>
+                          <p>{content}</p></div>
+                          <div className="editborrar">
+                          <Button onClick={()=>deleteComment(comment._id)}><ClearIcon className="iconeted" fontSize="small"/></Button>
+                          <Button onClick={()=>editComment(comment._id)}><EditIcon className="iconetee" fontSize="small"/></Button>
+                          
+                          </div>
+                          </div>
+                          </section>)
+                        })}
+          
+            <Button color="success" style={{border:'solid 1.5px green'}} onClick={()=>setShowForm(!showForm)}>{showForm? 'Hide': 'Post a comment'}</Button>
+                        {showForm&&!isLoggedIn&&
+                        <>
+                        <br/>
+                        <alert>You have to be logged in</alert></>}
+
+                    {showForm&&isLoggedIn&&
+                      <Formulari API_URL={API_URL} _id={_id} knowPhoto={knowPhoto} user={user._id}/>
                       }
 
         </Popup>

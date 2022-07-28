@@ -9,8 +9,24 @@ const [rating, setRating]= useState(0)
 const [title, setTitle] = useState('')
 const [content, setContent] = useState('')
 const [photo, setPhoto] = useState('')
-const [userId, setUserId] = useState('')
 
+
+const uploadImage = async (e) =>{
+      const files = e.target.files;
+      const data = new FormData();
+      data.append('file', files[0]);
+      data.append('upload_preset', 'watermap')
+      const res = await fetch(
+        'https://api.cloudinary.com/v1_1/patufet/image/upload',
+        { 
+            method: 'POST',
+            body: data
+        }
+      )
+      const file = await res.json();
+      setPhoto(file.secure_url)
+     await props.knowPhoto(photo)
+}
 
 const knowRating=(ratingnum) => setRating(ratingnum)
 
@@ -18,7 +34,7 @@ const knowRating=(ratingnum) => setRating(ratingnum)
   const  handleSubmit=(e)=>{
     e.preventDefault()
 
-    const body = {rating:rating , title:title , content:content , photo:photo, labafont:props._id, user:userId} 
+    const body = {rating:rating , title:title , content:content , photo:photo, labafont:props._id, user:props.user} 
     const storedToken = localStorage.getItem('authToken');
 
     axios   
@@ -28,7 +44,7 @@ const knowRating=(ratingnum) => setRating(ratingnum)
       setTitle('')
       setPhoto('')
       setRating(0)
-      setUserId('')
+    
     })
   }
 
@@ -36,18 +52,20 @@ const knowRating=(ratingnum) => setRating(ratingnum)
 
     return(
         
-            <div style={{textAlign:'center'}}>
+            <div  style={{textAlign:'center', borderRadius: '20px', border:'solid 1px black',padding:'10px 30px' ,margin:'10px 5px' }}>
                     <h4><b>Post a comment:</b></h4>
                     <form  onSubmit={handleSubmit} >
 
                     <StarRating knowRating={knowRating}  />
                     <br/>
+                    <label for="file-upload" class="custom-file-upload">
+                      Upload photo 
+                    </label>
                     <input 
+                    id="file-upload"
                     type={'file'} 
                     name={"photo"}
-                    accept='image/*'
-                    value={photo}
-                    onChange={(e)=> setPhoto(e.target.value)}
+                    onChange={uploadImage}
                     />
                     <br/><br/>
                     <input placeholder={"Title"} 
@@ -72,7 +90,7 @@ const knowRating=(ratingnum) => setRating(ratingnum)
                     ></textarea> 
 
                     <br/>
-                    <Button type="submit" onSubmit={()=>setUserId(props.user)} variant="contained" color="success">Post</Button>
+                    <Button type="submit" style={{marginBottom:'10px'}} variant="contained" color="success">Post</Button>
                    
                     </form> 
             </div>

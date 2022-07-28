@@ -20,7 +20,7 @@ return(
     <>
 <PopupState variant="popover" popupId="demo-popup-menu">
   {(popupState) => (
-    <React.Fragment>
+    <>
     {props.props==='dark'&&
     <Button style={{borderRadius:'365px', color:'white'}} {...bindTrigger(popupState)}>
     <MenuIcon/>
@@ -40,7 +40,7 @@ return(
          {isLoggedIn && (
         <MenuItem onClick={popupState.close}><Button style={{color:'#1F4690'}} onClick={()=>logOutUser()}>Logout</Button></MenuItem>)}
       </Menu>
-    </React.Fragment>
+      </>
   )}
 </PopupState>
 </>

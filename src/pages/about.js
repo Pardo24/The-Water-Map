@@ -10,8 +10,8 @@ function About(){
     return(<>
         <div className='primaryNav'><text></text><div className="footergran left"><a href="https://github.com/Pardo24" target="_blank" rel="noreferrer"><GitHubIcon  style={{padding:"15px 10px 0 15px", color:'black'}}/></a> <a href="https://www.linkedin.com/in/daniel-pardo-celaya-53a999242/" target="_blank" rel="noreferrer"><LinkedInIcon style={{padding:"15px 30px 0 15px", color:'black'}}/></a>
         </div> <MenuComp  size='large' style={{marginRight:'20px'}}/></div>
-    <div className="about"style={{marginTop:'30px'}}>
-        <img src={about} alt='water' width={600} height={500}/>
+    <div className="about"style={{marginTop:'10%',padding:'10px 0'}}>
+        <img src={about} alt='water' width={500} height={400}/>
     <div className="aboutContent" style={{textAlign:'center'}}>
         <h1>Why?</h1>
         <br/>
