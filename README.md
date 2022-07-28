@@ -11,4 +11,4 @@ If you don't want to register you can use this user (email: user@user.com, passw
 
 
 
-Tank you for looking at my project. 
+Thank you for looking at my project. 
