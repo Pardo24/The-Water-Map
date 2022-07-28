@@ -61,8 +61,9 @@ const [showLab, setShowLab] = useState(true)
 const [showFon, setShowFon] = useState(true)
 const [showPis, setShowPis] = useState(true)
 const [photo, setPhoto] = useState('')
-const [action, setAction] = useState(true)
 const [refresh, setRefresh] = useState(0)
+const [editC, setEditC] = useState(false)
+
 
 const ZOOM_LEVEL =14 
 const mapRef = useRef()
@@ -192,7 +193,7 @@ return(
                           const {photo, title, updatedAt,rating, content, user} = comment;
               
                         return(
-                          
+                          <>
                           <section className="leaflet-popup-content-wrapper leaflet-popup-content" style={{margin:'10px 5px', padding:'10px', textAlign:'center', display:'flex', justifyContent:'center'}}>
                           
                             <div className="comment" style={{padding:'10px 5px'}}>
@@ -205,21 +206,27 @@ return(
                             <b>{title}</b><br/>
                             {rating>0&&
                               [...Array(rating)].map(() =><span className="star" style={{color:'rgb(33, 114, 226)'}}>&#9733;</span>)}<br/>
-                            <span>{content}</span></div>
+                            <span>{content}</span>
+                            
+                            </div>
+                            
                             <div className="editborrar">
                             <Button style={{padding:'0 -10px 0 -10px'}} onClick={()=>deleteComment(comment._id)}><ClearIcon className="iconeted" fontSize="small"/></Button>
-                            <Button onClick={()=>editComment(comment._id)}><EditIcon className="iconetee" fontSize="small"/></Button>
+                            <Button  onClick={()=>setEditC(!editC)}><EditIcon className="iconetee" fontSize="small"/></Button>
                             
                             </div>
                             </div>
-                        
-                 </section>)
+                            
+                 </section>
+                 {editC&&isLoggedIn&&
+                            <Formulari API_URL={API_URL} id={comment._id} editData={(photo, title, content, rating)}/>
+                            }</>)
                         })}
                    
                       <Button color="success" style={{border:'solid 1.5px green', margin:'12px 0% 15px 0'}}  onClick={()=>setShowForm(!showForm)}>{showForm? 'Hide': 'Post a comment'}</Button>
                       {showForm&&!isLoggedIn&&
                         <>
-                        <br/>
+                        <br/><br/>
                         <alert>You have to be logged in</alert></>}
 
                       {showForm&&isLoggedIn&&
@@ -246,7 +253,8 @@ return(
                         comments.map((comment)=>{
                           const {photo, title, updatedAt,rating, content, user} = comment;
               
-                        return(<section className="leaflet-popup-content-wrapper leaflet-popup-content" style={{margin:'10px 5px', padding:'10px', textAlign:'center', display:'flex', justifyContent:'center'}}>
+                        return(<>
+                        <section className="leaflet-popup-content-wrapper leaflet-popup-content" style={{margin:'10px 5px', padding:'10px', textAlign:'center', display:'flex', justifyContent:'center'}}>
                           
                           <div className="comment" style={{padding:'10px 5px'}}>
                          
@@ -260,12 +268,17 @@ return(
                             [...Array(rating)].map(() =><span className="star" style={{color:'rgb(33, 114, 226)'}}>&#9733;</span>)}<br/>
                           <span>{content}</span></div>
                           <div className="editborrar">
-                          <Button onClick={()=>deleteComment(comment._id)}><ClearIcon className="iconeted" fontSize="small"/></Button>
-                          <Button onClick={()=>editComment(comment._id)}><EditIcon className="iconetee" fontSize="small"/></Button>
+                          <Button  onClick={()=>deleteComment(comment._id)}><ClearIcon className="iconeted" fontSize="small"/></Button>
+                          <Button  onClick={()=>setEditC(!editC)}><EditIcon className="iconetee" fontSize="small"/></Button>
                           
                           </div>
                           </div>
-                          </section>)
+                          </section>
+                          {editC&&isLoggedIn&&
+                            <Formulari API_URL={API_URL} id={comment._id} editData={(photo, title, content, rating, _id)}/>
+                            }
+
+                            </>)
                       })}
                         
                 <Button color="success" style={{border:'solid 1.5px green'}} onClick={()=>setShowForm(!showForm)}>{showForm? 'Hide': 'Post a comment'}</Button>
@@ -304,7 +317,8 @@ return(
                         comments.map((comment)=>{
                           const {photo, title, updatedAt,rating, content, user} = comment;
               
-                        return(<section className="leaflet-popup-content-wrapper leaflet-popup-content" style={{margin:'10px 5px', padding:'10px', textAlign:'center', display:'flex', justifyContent:'center'}}>
+                        return(<>
+                        <section className="leaflet-popup-content-wrapper leaflet-popup-content" style={{margin:'10px 5px', padding:'10px', textAlign:'center', display:'flex', justifyContent:'center'}}>
                           
                           <div className="comment" style={{padding:'10px 5px'}}>
                          
@@ -319,11 +333,14 @@ return(
                           <span>{content}</span></div>
                           <div className="editborrar">
                           <Button onClick={()=>deleteComment(comment._id)}><ClearIcon className="iconeted" fontSize="small"/></Button>
-                          <Button onClick={()=>editComment(comment._id)}><EditIcon className="iconetee" fontSize="small"/></Button>
+                          <Button onClick={()=>setEditC(!editC)}><EditIcon className="iconetee" fontSize="small"/></Button>
                           
                           </div>
                           </div>
-                          </section>)
+                          </section>
+                          {editC&&isLoggedIn&&
+                            <Formulari API_URL={API_URL} id={comment._id} editData={(photo, title, content, rating, _id)}/>
+                            }</>)
                         })}
           
             <Button color="success" style={{border:'solid 1.5px green', marginLeft: '28%'}} onClick={()=>setShowForm(!showForm)}>{showForm? 'Hide': 'Comment'}</Button>

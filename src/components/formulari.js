@@ -37,7 +37,7 @@ const knowRating=(ratingnum) => setRating(ratingnum)
     const body = {rating:rating , title:title , content:content , photo:photo, labafont:props._id, user:props.user} 
     const storedToken = localStorage.getItem('authToken');
 
-    axios   
+    if(!props.editData){axios   
     .post(`${props.API_URL}/lavafont/${props._id}`, body, { headers: { Authorization: `Bearer ${storedToken}` } })
     .then(()=>{
       setContent('')
@@ -45,28 +45,55 @@ const knowRating=(ratingnum) => setRating(ratingnum)
       setPhoto('')
       setRating(0)
     
-    })
+    })}
+    else{
+      const body = {rating:rating, title:title, content:content, photo:photo}
+      axios   
+    .put(`${props.API_URL}/comments/${props.id}`, body, { headers: { Authorization: `Bearer ${storedToken}` } })
+    .then(()=>{
+      setContent('')
+      setTitle('')
+      setPhoto('')
+      setRating(0)
+    })}
   }
 
+  const edit =() =>{
+    if(props.editData){
+      setContent(props.editData.content)
+      setTitle(props.editData.title)
+      setPhoto(props.editData.photo)
+      setRating(props.editData.rating)
+
+    }
+  }
 
 
     return(
         
             <div  style={{textAlign:'center', borderRadius: '20px', border:'solid 1px black',padding:'10px 30px' ,margin:'10px 5px' }}>
-                    <h4><b>Post a comment:</b></h4>
+                    {props.editData&&
+                      <h4><b>Edit your comment:</b>{edit}</h4>}
+                      {!props.editData&&
+                      <h4><b>Post a comment:</b></h4>}
+                    
                     <form  onSubmit={handleSubmit} >
 
                     <StarRating knowRating={knowRating}  />
                     <br/>
+                    
                     <label for="file-upload" class="custom-file-upload">
-                      Upload photo 
+                     Upload Image 
                     </label>
                     <input 
                     id="file-upload"
                     type={'file'} 
                     name={"photo"}
+                    value={photo}
                     onChange={uploadImage}
                     />
+
+                    
                     <br/><br/>
                     <input placeholder={"Title"} 
                     type={"text"} 
