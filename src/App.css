@@ -37,6 +37,21 @@
   color: red;
 }
 
+::-webkit-scrollbar {
+  width: 10px;
+
+}
+
+::-webkit-scrollbar-track {
+  background-color: #e4e4e4;
+  border-radius: 100px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #6c6b6a;
+  border-radius: 100px;
+}
+
 input[type="file"] {
   display: none;
 }
@@ -48,7 +63,7 @@ input[type="file"] {
   cursor: pointer;
 }
 .on {
-  color: rgb(199, 186, 43);
+  color: rgb(33, 114, 226);
 }
 .off {
   color: #ccc;
@@ -65,7 +80,7 @@ input[type="file"] {
   font-family: 'Molengo', sans-serif;
   font-size: 12px;
   text-align: center;
-  line-height: 10px;
+  line-height: 5px;
   max-height: 300px;
   }
 

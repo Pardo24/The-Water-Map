@@ -112,11 +112,10 @@ useEffect(()=>{
 },[])
 
  useEffect(() => { 
-  
   getAllPiscines()
   getAllLavabos()
- 
-  getAllFonts()   
+  getAllFonts()  
+
 }, [refresh] );
 
 
@@ -194,7 +193,7 @@ return(
                            
                           {photo!==0&&
                             
-                          <div><a href={photo} rel='noreferrer' target='_blank'><img src={photo} width={120} height={90} alt='no img' style={{padding:'10px 10px 0px 0px'}}/></a></div>}
+                          <div><a href={photo} rel='noreferrer' target='_blank'><img src={photo} width={90} height={80} alt='no img' style={{padding:'10px 10px 0px 0px'}}/></a></div>}
                             <div style={{marginRight:'20px'}}>
                                                          
                             <b>{title}</b><br/>
@@ -202,7 +201,7 @@ return(
                               [...Array(rating)].map(() =><span className="star" style={{color:'#F6E83A'}}>&#9733;</span>)}<br/>
                             <p>{content}</p></div>
                             <div className="editborrar">
-                            <Button onClick={()=>deleteComment(comment._id)}><ClearIcon className="iconeted" fontSize="small"/></Button>
+                            <Button style={{padding:'0 -10px 0 -10px'}} onClick={()=>deleteComment(comment._id)}><ClearIcon className="iconeted" fontSize="small"/></Button>
                             <Button onClick={()=>editComment(comment._id)}><EditIcon className="iconetee" fontSize="small"/></Button>
                             
                             </div>
