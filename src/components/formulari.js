@@ -1,6 +1,6 @@
 import StarRating from "./starRating"
 import {Cloudinary} from "@cloudinary/url-gen";
-import {useState} from 'react'
+import {useState, useEffect} from 'react'
 import axios from "axios";
 import { Button } from "@mui/material";
 
@@ -73,7 +73,7 @@ const knowRating=(ratingnum) => setRating(ratingnum)
         
             <div  style={{textAlign:'center', borderRadius: '20px', border:'solid 1px black',padding:'10px 30px' ,margin:'10px 5px' }}>
                     {props.editData&&
-                      <h4><b>Edit your comment:</b>{edit}</h4>}
+                      <><h4><b>Edit your comment:</b></h4>{()=>edit}</>}
                       {!props.editData&&
                       <h4><b>Post a comment:</b></h4>}
                     
@@ -82,14 +82,14 @@ const knowRating=(ratingnum) => setRating(ratingnum)
                     <StarRating knowRating={knowRating}  />
                     <br/>
                     
-                    <label for="file-upload" class="custom-file-upload">
+                    <label for="file-upload" className="custom-file-upload">
                      Upload Image 
                     </label>
                     <input 
                     id="file-upload"
                     type={'file'} 
                     name={"photo"}
-                    value={photo}
+                    filename={photo}
                     onChange={uploadImage}
                     />
 

@@ -20,18 +20,17 @@ function HomePage(){
 const navigate = useNavigate()
     
 
-
 function NeedWater(){
- const MySwal = withReactContent(Swal)
 
+ const MySwal = withReactContent(Swal)
  const {value: city} =  MySwal.fire({
     title: 'Where do you want to flow?',
     width: 500,
     padding: '4em',
     input: 'select',
     inputOptions: {
-        "New York": 'New York',
         "Barcelona": 'Barcelona',
+        "New York": 'New York',
         'London': 'London'
 
     },

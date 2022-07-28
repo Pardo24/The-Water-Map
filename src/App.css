@@ -30,7 +30,7 @@
   cursor: pointer;
 }
 .iconetee:hover{
-  color:green
+  color:rgb(40, 191, 40)
 }
 
 .iconeted:hover{
@@ -63,6 +63,9 @@ input[type="file"] {
   outline: none;
   cursor: pointer;
 }
+
+
+
 .on {
   color: rgb(33, 114, 226);
 }

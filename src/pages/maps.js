@@ -219,11 +219,11 @@ return(
                             
                  </section>
                  {editC&&isLoggedIn&&
-                            <Formulari API_URL={API_URL} id={comment._id} editData={(photo, title, content, rating)}/>
+                            <Formulari API_URL={API_URL} knowPhoto={knowPhoto} id={comment._id} editData={(photo, title, content, rating)}/>
                             }</>)
                         })}
                    
-                      <Button color="success" style={{border:'solid 1.5px green', margin:'12px 0% 15px 0'}}  onClick={()=>setShowForm(!showForm)}>{showForm? 'Hide': 'Post a comment'}</Button>
+                      <Button color="success" style={{border:'solid 1.5px green', margin:'12px 0% 15px 0'}}  onClick={()=>setShowForm(!showForm)}>{showForm? 'Hide': 'Comment'}</Button>
                       {showForm&&!isLoggedIn&&
                         <>
                         <br/><br/>
@@ -275,13 +275,13 @@ return(
                           </div>
                           </section>
                           {editC&&isLoggedIn&&
-                            <Formulari API_URL={API_URL} id={comment._id} editData={(photo, title, content, rating, _id)}/>
+                            <Formulari API_URL={API_URL} id={comment._id} knowPhoto={knowPhoto} editData={(photo, title, content, rating, _id)}/>
                             }
 
                             </>)
                       })}
                         
-                <Button color="success" style={{border:'solid 1.5px green'}} onClick={()=>setShowForm(!showForm)}>{showForm? 'Hide': 'Post a comment'}</Button>
+                <Button color="success" style={{border:'solid 1.5px green'}} onClick={()=>setShowForm(!showForm)}>{showForm? 'Hide': 'Comment'}</Button>
 
                         {showForm&&!isLoggedIn&&
                           <>
@@ -339,11 +339,11 @@ return(
                           </div>
                           </section>
                           {editC&&isLoggedIn&&
-                            <Formulari API_URL={API_URL} id={comment._id} editData={(photo, title, content, rating, _id)}/>
+                            <Formulari API_URL={API_URL} id={comment._id} knowPhoto={knowPhoto} editData={(photo, title, content, rating, _id)}/>
                             }</>)
                         })}
           
-            <Button color="success" style={{border:'solid 1.5px green', marginLeft: '28%'}} onClick={()=>setShowForm(!showForm)}>{showForm? 'Hide': 'Comment'}</Button>
+            <Button color="success" style={{border:'solid 1.5px green'}} onClick={()=>setShowForm(!showForm)}>{showForm? 'Hide': 'Comment'}</Button>
                         {showForm&&!isLoggedIn&&
                         <>
                         <br/>
