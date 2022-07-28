@@ -109,7 +109,7 @@ const getAllPiscines=() =>{
 }
 
 useEffect(()=>{
- setInterval(() =>setRefresh((refresh+1)), 5000)
+ setInterval(() =>setRefresh((r=> r+=1)), 5000)
 }, [])
 
  useEffect(() => { 
