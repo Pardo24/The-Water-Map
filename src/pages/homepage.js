@@ -64,7 +64,7 @@ function NeedWater(){
        </div> <MenuComp props='dark' fontSize='large' style={{marginRight:'20px'}}/></div>
             <h1 className="titol"><img src={portada} alt='portada'/></h1>
             <p className="parag"><text style={{fontWeight: 500}} className="textsubrallat">Find your flow everywhere</text></p>
-            <Button onClick={()=>NeedWater()} style={{marginBottom:"190px", backgroundColor:'white',padding:'10px' ,fontWeight:'550', color:'black', borderRadius:'50px'}}>Choose your city</Button>
+            <Button onClick={()=>NeedWater()} style={{marginBottom:"185px", backgroundColor:'white',padding:'10px' ,fontWeight:'550', color:'black', borderRadius:'50px'}}>Choose your city</Button>
         </div>
         
         </>
