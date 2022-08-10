@@ -10,7 +10,7 @@ import { Icon} from 'leaflet'
 import axios from "axios";
 import wcIcon from '../pictures/wc-icon.png'
 import fontIcon from '../pictures/font-icon.png'
-import { Button } from "@mui/material"
+import { Button, Alert } from "@mui/material"
 import Formulari from "../components/formulari"
 import { useContext } from "react";                      
 import { AuthContext } from "../context/auth.context";
@@ -20,9 +20,9 @@ import MenuComp from "../components/menu"
 import wcIconWhi from '../pictures/wc-icon-white.png'
 import piscIconWhi from '../pictures/iconoPiscina-white.png'
 import fontIconWhi from '../pictures/font-icon-white.png'
-import { isVisible } from "@testing-library/user-event/dist/utils"
 import ClearIcon from '@mui/icons-material/Clear';
 import EditIcon from '@mui/icons-material/Edit';
+
 
 const API_URL = process.env.REACT_APP_API_URL;
 
@@ -217,7 +217,7 @@ return(
                       {showForm&&!isLoggedIn&&
                         <>
                         <br/><br/>
-                        <alert>You have to be logged in</alert></>}
+                        <Alert severity="error">You have to be logged in</Alert></>}
 
                       {showForm&&isLoggedIn&&
                       
@@ -276,7 +276,7 @@ return(
                         {showForm&&!isLoggedIn&&
                           <>
                         <br/>
-                        <alert>You have to be logged in</alert></>}
+                        <Alert severity="error">You have to be logged in</Alert></>}
 
                         {showForm&&isLoggedIn&&
                         
@@ -337,7 +337,7 @@ return(
                         {showForm&&!isLoggedIn&&
                         <>
                         <br/>
-                        <alert>You have to be logged in</alert></>}
+                        <Alert severity="error">You have to be logged in</Alert></>}
 
                     {showForm&&isLoggedIn&&
                       <Formulari API_URL={API_URL} _id={_id} knowPhoto={knowPhoto} user={user._id}/>
