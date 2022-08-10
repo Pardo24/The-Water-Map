@@ -16,6 +16,7 @@ import axios from 'axios'
 import { useNavigate } from "react-router-dom";
 import { AuthContext } from '../context/auth.context'
 import {useContext, useState } from "react";
+import { Alert} from '@mui/material';
 
 const API_URL = process.env.REACT_APP_API_URL
 
@@ -64,6 +65,7 @@ axios.post(`${API_URL}/auth/login`, requestBody)
       })
       .catch((error) => {
         const errorDescription = error.response.data.message;
+        console.log(error.response.data.message)
         setErrorMessage(errorDescription);
       })
   };
@@ -119,6 +121,7 @@ axios.post(`${API_URL}/auth/login`, requestBody)
             >
               Sign In
             </Button>
+            {errorMessage?<Alert severity='error'>{errorMessage}</Alert>:null}  
             <Grid container>
               <Grid item xs>
                 <Link href="#" variant="body2">
@@ -131,6 +134,7 @@ axios.post(`${API_URL}/auth/login`, requestBody)
                 </Link>
               </Grid>
             </Grid>
+            
           </Box>
         </Box>
         <Copyright sx={{ mt: 8, mb: 4 }} />

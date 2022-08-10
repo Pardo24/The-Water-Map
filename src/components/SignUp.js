@@ -3,8 +3,6 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
 import TextField from '@mui/material/TextField';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import Checkbox from '@mui/material/Checkbox';
 import Link from '@mui/material/Link';
 import Grid from '@mui/material/Grid';
 import Box from '@mui/material/Box';
@@ -15,6 +13,7 @@ import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
+import { Alert } from '@mui/material';
 
 const API_URL = process.env.REACT_APP_API_URL
 
@@ -55,7 +54,7 @@ const [errorMessage, setErrorMessage] = useState(undefined);
     navigate('/login');
     })
     .catch((error) => {
-      const errorDescription = error.response.data;
+      const errorDescription = error.response.data.message;
       setErrorMessage(errorDescription);
     })
     
@@ -134,6 +133,7 @@ const [errorMessage, setErrorMessage] = useState(undefined);
             >
               Sign Up
             </Button>
+            {errorMessage?<Alert severity='error'>{errorMessage}</Alert>:null}  
             <Grid container justifyContent="flex-end">
               <Grid item>
                 <Link href="/login" variant="body2">

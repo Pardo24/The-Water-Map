@@ -76,11 +76,7 @@ const {
 } = useContext(AuthContext);
 
 
-const editComment= (id) =>{
-  const storedToken = localStorage.getItem('authToken');
-    axios.put(`${API_URL}/comments/${id}`, { headers: { Authorization: `Bearer ${storedToken}` } })
-   
-}
+
 
 const deleteComment = (id) =>{
   const storedToken = localStorage.getItem('authToken');
@@ -110,24 +106,24 @@ const getAllPiscines=() =>{
 }
 
 useEffect(()=>{
- setInterval(() =>setRefresh((r=> r+=1)), 5000)
-}, [])
+  setInterval(() =>setRefresh((r=> r+=1)), 5000)
+ }, [])    
 
  useEffect(() => { 
   getAllPiscines()
-  getAllLavabos()
-  getAllFonts()  
-
 }, [refresh] );
 
-const edit = (idcom) => {
+useEffect(() => { 
+  getAllFonts()  
+}, [refresh] );
 
-  editComment(idcom)
-}
+useEffect(() => { 
+  getAllLavabos() 
+}, [refresh] );
 
 
 
-                                              
+                                        
                                                
 return(
        <body>
