@@ -109,15 +109,9 @@ useEffect(()=>{
   setInterval(() =>setRefresh((r=> r+=1)), 5000)
  }, [])    
 
- useEffect(() => { 
+ useEffect(() => {
   getAllPiscines()
-}, [refresh] );
-
-useEffect(() => { 
   getAllFonts()  
-}, [refresh] );
-
-useEffect(() => { 
   getAllLavabos() 
 }, [refresh] );
 
