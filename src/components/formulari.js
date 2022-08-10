@@ -3,6 +3,8 @@ import {Cloudinary} from "@cloudinary/url-gen";
 import {useState, useEffect} from 'react'
 import axios from "axios";
 import { Button } from "@mui/material";
+import { AuthContext } from "../context/auth.context";
+import { useContext } from "react"; 
 
 function Formulari(props){
 const [rating, setRating]= useState(0)
@@ -10,6 +12,11 @@ const [title, setTitle] = useState('')
 const [content, setContent] = useState('')
 const [photo, setPhoto] = useState('')
 
+const { 
+  isLoggedIn,
+  user,                  
+  logOutUser             
+} = useContext(AuthContext);
 
 const uploadImage = async (e) =>{
       const files = e.target.files;
@@ -48,6 +55,7 @@ const knowRating=(ratingnum) => setRating(ratingnum)
     })}
     else{
       const body = {rating:rating, title:title, content:content, photo:photo}
+      
       axios   
     .put(`${props.API_URL}/comments/${props.id}`, body, { headers: { Authorization: `Bearer ${storedToken}` } })
     .then(()=>{
