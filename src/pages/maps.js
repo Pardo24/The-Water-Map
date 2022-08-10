@@ -78,9 +78,10 @@ const {
 
 
 
-const deleteComment = (id) =>{
+const deleteComment = (id, userid) =>{
   const storedToken = localStorage.getItem('authToken');
-  axios.delete(`${API_URL}/comments/${id}`, { headers: { Authorization: `Bearer ${storedToken}` } })
+  if(userid===user._id){
+  axios.delete(`${API_URL}/comments/${id}`, { headers: { Authorization: `Bearer ${storedToken}` } })}
   
 }
 
@@ -194,14 +195,14 @@ return(
                             <div style={{marginRight:'5px', marginLeft:'10px'}}>
                                                          
                             <b>{title}</b><br/>
-                            {rating>0&&
+                            {
                               [...Array(rating)].map(() =><span className="star" style={{color:'rgb(33, 114, 226)'}}>&#9733;</span>)}<br/>
                             <span>{content}</span>
                             
                             </div>
                             
                             <div className="editborrar">
-                            <Button style={{padding:'0 -10px 0 -10px'}} onClick={()=>deleteComment(comment._id)}><ClearIcon className="iconeted" fontSize="small"/></Button>
+                            <Button style={{padding:'0 -10px 0 -10px'}} onClick={()=>deleteComment(comment._id, user)}><ClearIcon className="iconeted" fontSize="small"/></Button>
                             <Button  onClick={()=>setEditC(!editC)}><EditIcon className="iconetee" fontSize="small"/></Button>
                             
                             </div>
@@ -254,11 +255,11 @@ return(
                           <div style={{marginRight:'20px'}}>
                                                        
                           <b>{title}</b><br/>
-                          {rating>0&&
+                          {
                             [...Array(rating)].map(() =><span className="star" style={{color:'rgb(33, 114, 226)'}}>&#9733;</span>)}<br/>
                           <span>{content}</span></div>
                           <div className="editborrar">
-                          <Button  onClick={()=>deleteComment(comment._id)}><ClearIcon className="iconeted" fontSize="small"/></Button>
+                          <Button  onClick={()=>deleteComment(comment._id, user)}><ClearIcon className="iconeted" fontSize="small"/></Button>
                           <Button  onClick={()=>setEditC(!editC)}><EditIcon className="iconetee" fontSize="small"/></Button>
                           
                           </div>
@@ -318,11 +319,11 @@ return(
                           <div style={{marginRight:'20px'}}>
                                                        
                           <b>{title}</b><br/>
-                          {rating>0&&
-                            [...Array(rating)].map(() =><span className="star" style={{color:'rgb(33, 114, 226)'}}>&#9733;</span>)}<br/>
+                          
+                            {[...Array(rating)].map(() =><span className="star" style={{color:'rgb(33, 114, 226)'}}>&#9733;</span>)}<br/>
                           <span>{content}</span></div>
                           <div className="editborrar">
-                          <Button onClick={()=>deleteComment(comment._id)}><ClearIcon className="iconeted" fontSize="small"/></Button>
+                          <Button onClick={()=>deleteComment(comment._id,user )}><ClearIcon className="iconeted" fontSize="small"/></Button>
                           <Button onClick={()=>setEditC(!editC)}><EditIcon className="iconetee" fontSize="small"/></Button>
                           
                           </div>
