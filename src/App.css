@@ -20,7 +20,7 @@ alert {
   margin-left: auto
 }
 
-img {
+.img {
   max-width: 100%;
   height: auto;
   width: auto\9; /* ie8 */
@@ -204,7 +204,17 @@ input[type="file"] {
   font-size: 1.5em;
   padding: 5px;
   color: white;
-  }}
+  }
+  .backgroundimg{
+    padding-bottom: 60px;
+  }
+}
+
+@media(max-width:630px){
+  .backgroundimg{
+    padding-bottom: 60px;
+  }
+}
 
   @media(max-width:350px){
     .textsubrallat{
@@ -212,7 +222,11 @@ input[type="file"] {
     font-size: 1.1em;
     padding: 5px;
     color: white;
-    }}
+    }
+    .backgroundimg{
+      padding-bottom: 80px;
+    }
+  }
   
 
   @media(min-width:445px){
