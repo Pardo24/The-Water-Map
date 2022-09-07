@@ -10,7 +10,7 @@
   text-align: center;
 }
 
- alert {
+alert {
   color: red;
 }
 .editborrar{
@@ -19,6 +19,14 @@
   align-self: flex-start;
   margin-left: auto
 }
+
+img {
+  max-width: 100%;
+  height: auto;
+  width: auto\9; /* ie8 */
+}
+
+
 
 .custom-file-upload {
   border: 1.3px solid rgb(181, 156, 117);
@@ -146,12 +154,22 @@ input[type="file"] {
     margin-right:auto;
 }
 
+@media(min-width:1030px){
 .about{
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: space-evenly;
 
+}}
+@media(max-width:1029px){
+  .about{
+    display: flex;
+    flex-direction: column-reverse;
+    align-items: center;
+    justify-content: space-evenly;
+  
+  }
 }
 
 .aboutContent{

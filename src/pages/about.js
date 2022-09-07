@@ -2,6 +2,7 @@ import MenuComp from "../components/menu"
 import GitHubIcon from '@mui/icons-material/GitHub';
 import LinkedInIcon from '@mui/icons-material/LinkedIn';
 import iaiones from '../pictures/iaiones.jpg'
+import iaionesmobil from '../pictures/iaionesmobil.jpg'
 
 function About(){
 
@@ -10,8 +11,8 @@ function About(){
     return(<>
         <div className='primaryNav'><text></text><div className="footergran left"><a href="https://github.com/Pardo24" target="_blank" rel="noreferrer"><GitHubIcon  style={{padding:"15px 10px 0 15px", color:'black'}}/></a> <a href="https://www.linkedin.com/in/daniel-pardo-celaya-53a999242/" target="_blank" rel="noreferrer"><LinkedInIcon style={{padding:"15px 30px 0 15px", color:'black'}}/></a>
         </div> <MenuComp  size='large' style={{marginRight:'20px'}}/></div>
-    <div className="about"style={{marginTop:'5%',padding:'10px 0'}}>
-        <img src={iaiones} alt='water' width={500} height={550}/>
+    <div className="about" style={{marginTop:'5%' , padding:'10px'}}>
+        <img id='iaiones' src={iaiones} style={{marginRight:'30px'}} alt='water'/>
     <div className="aboutContent" style={{lineHeight:'25px'}}>
         <h1 style={{textAlign:'left!important'}}>Why?</h1>
         <br/>

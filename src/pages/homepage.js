@@ -61,9 +61,9 @@ function NeedWater(){
         
         <div className='primaryNav'><text></text><div className="footergran left"><a href="https://github.com/Pardo24" target="_blank" rel="noreferrer"><GitHubIcon  style={{padding:"15px 10px 0 15px", color:'white'}}/></a> <a href="https://www.linkedin.com/in/daniel-pardo-celaya-53a999242/" target="_blank" rel="noreferrer"><LinkedInIcon style={{padding:"15px 30px 0 15px", color:'white'}}/></a>
        </div> <MenuComp props='dark' fontSize='large' style={{marginRight:'20px'}}/></div>
-            <h1 className="titol"><img src={portada} alt='portada'/></h1>
+            <h1 className="titol"><img src={portada} style={{marginRight:'1px'}} alt='portada'/></h1>
             <p className="parag"><text style={{fontWeight: 500}} className="textsubrallat">Find your flow everywhere</text></p>
-            <Button onClick={()=>NeedWater()} style={{marginBottom:"185px", backgroundColor:'white',padding:'10px' ,fontWeight:'550', color:'black', borderRadius:'50px'}}>Choose your city</Button>
+            <Button onClick={()=>NeedWater()} style={{marginBottom:"185px", backgroundColor:'white',padding:'10px' ,fontWeight:'550', color:'#343E3D', borderRadius:'50px'}}>Choose your city</Button>
         </div>
         
         </>
