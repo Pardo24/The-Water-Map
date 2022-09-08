@@ -286,7 +286,7 @@ function Maps() {
                                 <Button
                                   style={{ padding: "0 -10px 0 -10px" }}
                                   onClick={() =>
-                                    deleteComment(comment._id, user)
+                                    deleteComment(comment._id, user._id)
                                   }
                                 >
                                   <ClearIcon
@@ -420,7 +420,7 @@ function Maps() {
                               <div className="editborrar">
                                 <Button
                                   onClick={() =>
-                                    deleteComment(comment._id, user)
+                                    deleteComment(comment._id, user._id)
                                   }
                                 >
                                   <ClearIcon
@@ -553,7 +553,7 @@ function Maps() {
                               <div className="editborrar">
                                 <Button
                                   onClick={() =>
-                                    deleteComment(comment._id, user)
+                                    deleteComment(comment._id, user._id)
                                   }
                                 >
                                   <ClearIcon
