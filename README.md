@@ -10,6 +10,6 @@ which tell me all the public toilets, drinking fountains and swiming pools. (swi
 If you don't want to register you can use this user (email: user@user.com, password: User123)
 
 
-Link: https://client-watermaps-1-0.vercel.app/
+Link: https://watermaps-pardo24.vercel.app/
 
-Thank you for looking at my project. 
+Thank you for looking at my project 
