@@ -2,7 +2,6 @@
 
 
 Its a simple web app made with react, express, node and mongoose that aims to resolve a problem in many cities;
-
 nobody knows where is a public drinking fountain or a public toilet, in this app i get info from 3 apis of Open Data Barcelona 
 which tell me all the public toilets, drinking fountains and swiming pools. (swimming pools came as idea because of the heat wave) 
 
