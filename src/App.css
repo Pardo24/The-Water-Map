@@ -8,6 +8,7 @@
   background-size: cover;
   background-color: beige;
   text-align: center;
+  width: 100%;
 }
 
 alert {
@@ -198,21 +199,18 @@ input[type="file"] {
   justify-content:start;
   align-items: center;
 }
-@media(max-width:445px){
+@media(max-width:545px){
   .textsubrallat{
     font-weight: 500;
   font-size: 1.5em;
   padding: 5px;
   color: white;
   }
-  .backgroundimg{
-    padding-bottom: 60px;
-  }
 }
 
 @media(max-width:630px){
   .backgroundimg{
-    padding-bottom: 60px;
+    padding-bottom: 0px;
   }
 }
 
@@ -229,7 +227,7 @@ input[type="file"] {
   }
   
 
-  @media(min-width:445px){
+  @media(min-width:545px){
 .textsubrallat{
   font-weight: 500;
   font-size: 2em;

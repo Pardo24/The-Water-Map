@@ -82,7 +82,7 @@ function HomePage() {
           />
         </div>
         <h1 className="titol">
-          <img className='img' src={portada} style={{ marginRight: "1px" }} alt="portada" />
+          <img className='img' src={portada} style={{ marginRight: "1px", width: "30%" }} alt="portada" />
         </h1>
         <p className="parag">
           <text style={{ fontWeight: 500 }} className="textsubrallat">
