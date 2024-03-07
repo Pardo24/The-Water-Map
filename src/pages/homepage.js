@@ -27,7 +27,7 @@ function HomePage() {
       input: "select",
       inputOptions: {
         Barcelona: "Barcelona",
-        "New York": "New York",
+        Newyork: "New York",
         London: "London",
       },
       showCancelButton: true,
@@ -66,7 +66,7 @@ function HomePage() {
               />
             </a>{" "}
             <a
-              href="https://www.linkedin.com/in/daniel-pardo-celaya-53a999242/"
+              href="https://www.linkedin.com/in/daniel-pardo-celaya/"
               target="_blank"
               rel="noreferrer"
             >

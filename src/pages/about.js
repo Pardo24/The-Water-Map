@@ -15,7 +15,7 @@ function About() {
             />
           </a>{" "}
           <a
-            href="https://www.linkedin.com/in/daniel-pardo-celaya-53a999242/"
+            href="https://www.linkedin.com/in/daniel-pardo-celaya/"
             target="_blank"
             rel="noreferrer"
           >

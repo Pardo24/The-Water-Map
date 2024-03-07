@@ -3,12 +3,21 @@
   font-family:Helvetica, sans-serif;
 }
 
+body {
+ width: 100%;
+  height: 100vh;
+  margin: 0px;
+}
+
 .backgroundimg{
   background-image:url(./pictures/portada-img.jpg) ;
   background-size: cover;
   background-color: beige;
   text-align: center;
+  height: 100vh;
   width: 100%;
+  margin: 0;
+  padding: 0;
 }
 
 alert {
@@ -24,7 +33,8 @@ alert {
 .img {
   max-width: 100%;
   height: auto;
-  width: auto\9; /* ie8 */
+  min-width: 50%;
+  width: auto\5; /* ie8 */
 }
 
 
@@ -208,11 +218,7 @@ input[type="file"] {
   }
 }
 
-@media(max-width:630px){
-  .backgroundimg{
-    padding-bottom: 0px;
-  }
-}
+
 
   @media(max-width:350px){
     .textsubrallat{
@@ -220,9 +226,6 @@ input[type="file"] {
     font-size: 1.1em;
     padding: 5px;
     color: white;
-    }
-    .backgroundimg{
-      padding-bottom: 80px;
     }
   }
   
@@ -234,6 +237,7 @@ input[type="file"] {
   padding: 5px;
   color: white;
 }
+
   }
 
 
